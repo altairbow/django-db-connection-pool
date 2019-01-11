@@ -18,12 +18,7 @@ if __name__ == '__main__':
         author_email=__author_email__,
         url='https://github.com/altairbow/django-db-connection-pool',
         download_url='https://pypi.python.org/pypi/django-db-connection-pool/',
-        packages=[
-            'dj_db_conn_pool',
-            'dj_db_conn_pool.backends',
-            'dj_db_conn_pool.backends.mysql',
-            'dj_db_conn_pool.backends.oracle'
-        ],
+        packages=setuptools.find_packages(),
         include_package_data=True,
         install_requires=[
             'SQLAlchemy>=1.2.15'
