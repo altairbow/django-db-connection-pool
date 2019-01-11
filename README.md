@@ -3,10 +3,12 @@
 MySQL & Oracle connection pool backends of of Django, Be based on SQLAlchemy.
 
 
-### HOW TO USE
+#### Quickstart
+Install with `pip`:
 
-#### MySQL
+    $ pip install django-db-connection-pool
 
+###### MySQL
 change ``django.db.backends.mysql`` to ``dj_db_conn_pool.backends.mysql``:
 
     DATABASES = {
@@ -17,8 +19,7 @@ change ``django.db.backends.mysql`` to ``dj_db_conn_pool.backends.mysql``:
         }
     }
 
-#### Oracle
-
+###### Oracle
 change ``django.db.backends.oracle`` to ``dj_db_conn_pool.backends.oracle``:
 
     DATABASES = {
