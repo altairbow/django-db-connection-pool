@@ -18,7 +18,7 @@ pool_modify_mutex = threading.Lock()
 pool_default_params = {
     'pool_size': 10,
     'max_overflow': 10,
-    'recycle': 216000
+    'pre_ping': True
 }
 
 
@@ -68,6 +68,8 @@ class BaseDatabaseWrapper:
                     # accept 'conn_params', and return a db-api Connection
                     # we pass a lambda to QueuePool
                     lambda: super(BaseDatabaseWrapper, self).get_new_connection(conn_params),
+                    # dbapi dialect
+                    dialect=self.SQLAlchemyDialect(dbapi=self.Database),
                     # QueuePool pool_params
                     echo=True, timeout=None, **pool_params
                 )

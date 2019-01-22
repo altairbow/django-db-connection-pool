@@ -1,6 +1,16 @@
 from django.db.backends.oracle import base
+from cx_Oracle import OperationalError
+from sqlalchemy.dialects.oracle.cx_oracle import OracleDialect
 from dj_db_conn_pool.backends import BaseDatabaseWrapper
 
 
+class Dialect(OracleDialect):
+    def do_ping(self, dbapi_connection):
+        try:
+            return super().do_ping(dbapi_connection)
+        except OperationalError:
+            return False
+
+
 class DatabaseWrapper(BaseDatabaseWrapper, base.DatabaseWrapper):
-    pass
+    SQLAlchemyDialect = Dialect
