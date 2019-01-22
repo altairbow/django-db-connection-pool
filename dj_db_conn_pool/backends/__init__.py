@@ -17,8 +17,7 @@ pool_modify_mutex = threading.Lock()
 # default parameters for QueuePool
 pool_default_params = {
     'pool_size': 10,
-    'max_overflow': 10,
-    'pre_ping': True
+    'max_overflow': 10
 }
 
 
@@ -51,7 +50,7 @@ class BaseDatabaseWrapper:
                     key.lower(): value
                     # get key & value
                     for key, value in
-                    self.settings_dict.get('POOL', {}).items()
+                    self.settings_dict.get('POOL_OPTIONS', {}).items()
                     # we check key whether key eq it's upper
                     # means key must be CAPITALIZED
                     # and key.upper() must in pool_params
@@ -71,7 +70,7 @@ class BaseDatabaseWrapper:
                     # dbapi dialect
                     dialect=self.SQLAlchemyDialect(dbapi=self.Database),
                     # QueuePool pool_params
-                    echo=True, timeout=None, **pool_params
+                    pre_ping=True, echo=True, timeout=None, **pool_params
                 )
 
                 logger.debug('%s database pool initialized, parameters: %s',
@@ -82,7 +81,7 @@ class BaseDatabaseWrapper:
                 database_pool_dict[self.alias] = alias_pool
 
         conn = database_pool_dict[self.alias].connect()
-        logger.debug('got %s database connection', self.alias)
+        logger.debug('got %s database connection from pool', self.alias)
         return conn
 
     def close(self, *args, **kwargs):
