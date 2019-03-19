@@ -5,23 +5,25 @@ MySQL & Oracle connection pool backends of of Django, Be based on SQLAlchemy.
 
 #### Quickstart
 Install with `pip`:
-
-    $ pip install django-db-connection-pool
+```bash
+$ pip install django-db-connection-pool
+```
 
 ###### MySQL
-change ``django.db.backends.mysql`` to ``dj_db_conn_pool.backends.mysql``:
-
-    DATABASES = {
-        'default': {
-            ...
-            'ENGINE': 'dj_db_conn_pool.backends.mysql'
-            ...
-        }
+change `django.db.backends.mysql` to `dj_db_conn_pool.backends.mysql`:
+```
+DATABASES = {
+    'default': {
+        ...
+        'ENGINE': 'dj_db_conn_pool.backends.mysql'
+        ...
     }
+}
+```
 
 ###### Oracle
-change ``django.db.backends.oracle`` to ``dj_db_conn_pool.backends.oracle``:
-
+change `django.db.backends.oracle` to `dj_db_conn_pool.backends.oracle`:
+```
     DATABASES = {
         'default': {
             ...
@@ -29,23 +31,24 @@ change ``django.db.backends.oracle`` to ``dj_db_conn_pool.backends.oracle``:
             ...
         }
     }
+```
 
 
 #### Configuration
 
-you can provide additional options to pass to SQLAlchemy's pool creation, key's name is POOL:
-
-    DATABASES = {
-        'default': {
-            ...
-            'ENGINE': 'dj_db_conn_pool.backends.mysql',
-            'POOL_OPTIONS' : {
-                'pool_size': 10,
-                'max_overflow': 10
-            }
-            ...
-         }
+you can provide additional options to pass to SQLAlchemy's pool creation, key's name is `POOL_OPTIONS`:
+```
+DATABASES = {
+    'default': {
+        ...
+        'POOL_OPTIONS' : {
+            'pool_size': 10,
+            'max_overflow': 10
+        }
+        ...
      }
+ }
+```
 
 Here's explanation of these options(copy from SQLAlchemy's Doc):
 
