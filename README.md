@@ -1,6 +1,6 @@
 # django-db-connection-pool
 
-MySQL & Oracle connection pool backends of of Django, Be based on SQLAlchemy.
+MySQL & Oracle connection pool backends of Django, Be based on SQLAlchemy.
 
 
 #### Quickstart
@@ -24,13 +24,13 @@ DATABASES = {
 ###### Oracle
 change `django.db.backends.oracle` to `dj_db_conn_pool.backends.oracle`:
 ```
-    DATABASES = {
-        'default': {
-            ...
-            'ENGINE': 'dj_db_conn_pool.backends.oracle'
-            ...
-        }
+DATABASES = {
+    'default': {
+        ...
+        'ENGINE': 'dj_db_conn_pool.backends.oracle'
+        ...
     }
+}
 ```
 
 
@@ -50,14 +50,14 @@ DATABASES = {
  }
 ```
 
-Here's explanation of these options(copy from SQLAlchemy's Doc):
+Here's explanation of these options(from SQLAlchemy's Doc):
 
 * **pool_size**: The size of the pool to be maintained,
           defaults to 5. This is the largest number of connections that
           will be kept persistently in the pool. Note that the pool
           begins with no connections; once this number of connections
           is requested, that number of connections will remain.
-          ``pool_size`` can be set to 0 to indicate no size limit; to
+          `pool_size` can be set to 0 to indicate no size limit; to
           disable pooling, use a :class:`~sqlalchemy.pool.NullPool`
           instead.
 
