@@ -39,10 +39,9 @@ you can provide additional options to pass to SQLAlchemy's pool creation, key's 
         'default': {
             ...
             'ENGINE': 'dj_db_conn_pool.backends.mysql',
-            'POOL' : {
+            'POOL_OPTIONS' : {
                 'pool_size': 10,
-                'max_overflow': 10,
-                'recycle': 216000
+                'max_overflow': 10
             }
             ...
          }
@@ -71,8 +70,3 @@ Here's explanation of these options(copy from SQLAlchemy's Doc):
           can be set to -1 to indicate no overflow limit; no limit
           will be placed on the total number of concurrent
           connections. Defaults to 10.
-
-* **recycle**: If set to a value other than -1, number of
-          seconds between connection recycling, which means upon
-          checkout, if this timeout is surpassed the connection will be
-          closed and replaced with a newly opened connection. Defaults to -1.
