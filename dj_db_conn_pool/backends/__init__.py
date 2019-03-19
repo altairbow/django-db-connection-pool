@@ -53,8 +53,8 @@ class BaseDatabaseWrapper:
                     self.settings_dict.get('POOL_OPTIONS', {}).items()
                     # we check key whether key eq it's upper
                     # means key must be CAPITALIZED
-                    # and key.upper() must in pool_params
-                    if key == key.upper() and key.lower() in pool_params
+                    # and key.lower() must in pool_default_params
+                    if key == key.upper() and key.lower() in pool_default_params
                 }
 
                 # merge default and setting

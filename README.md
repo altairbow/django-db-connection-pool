@@ -42,8 +42,8 @@ DATABASES = {
     'default': {
         ...
         'POOL_OPTIONS' : {
-            'pool_size': 10,
-            'max_overflow': 10
+            'POOL_SIZE': 10,
+            'MAX_OVERFLOW': 10
         }
         ...
      }
