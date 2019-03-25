@@ -1,16 +1,17 @@
 # django-db-connection-pool
 
-驱动 Django MySQL、Oracle 连接池的轮子, 基于 SQLAlchemy 队列池
+MySQL & Oracle connection pool backends of Django, Be based on SQLAlchemy.
 
-#### 快速开始
-1. 使用 `pip` 进行:
+
+#### Quickstart
+1. Install with `pip`:
     ```bash
     $ pip install django-db-connection-pool
     ```
 
-2. 更新 DATABASES 的 配置
+2. Configuration
     * ##### MySQL  
-        将 ENGINE `django.db.backends.mysql` 更改为 `dj_db_conn_pool.backends.mysql`:
+        change `django.db.backends.mysql` to `dj_db_conn_pool.backends.mysql`:
         ```
         DATABASES = {
             'default': {
@@ -22,7 +23,7 @@
         ```
     
     * ##### Oracle  
-        将 ENGINE `django.db.backends.oracle` 更改为 `dj_db_conn_pool.backends.oracle`:
+        change `django.db.backends.oracle` to `dj_db_conn_pool.backends.oracle`:
         ```
         DATABASES = {
             'default': {
@@ -32,12 +33,8 @@
             }
         }
         ```
-    * ##### 连接池配置（可选）
-        目前连接池限制用户传入的连接池配置为：POOL_SIZE（连接池容量）、MAX_OVERFLOW（连接池容量上下浮动最大值）
-        这两个参数包含在 `POOL_OPTIONS` 内，例如下面的配置，default 的连接池常规容量为10个连接，最大浮动10个，
-        即为：在 default 连接池创建后，随着程序对连接池的请求，连接池内连接将逐步增加到10个，如果在连接池内连接
-        全部用光后，程序又请求了第11个连接，此时的连接池容量将短暂超过 POOL_SIZE，但最大不超过 POOL_SIZE + MAX_OVERFLOW，
-        如果程序请求 default 数据库的连接数量超过 POOL_SIZE + MAX_OVERFLOW，那连接池将一直等待直到程序释放连接。
+    * ##### pool options  
+        you can provide additional options to pass to SQLAlchemy's pool creation, key's name is `POOL_OPTIONS`:
         ```
         DATABASES = {
             'default': {
@@ -51,7 +48,7 @@
          }
         ```
         
-        附这两个参数的解释：(摘录于 SQLAlchemy 的文档):
+        Here's explanation of these options(from SQLAlchemy's Doc):
         
         * **pool_size**: The size of the pool to be maintained,
                   defaults to 5. This is the largest number of connections that
