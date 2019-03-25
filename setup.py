@@ -13,7 +13,7 @@ if __name__ == '__main__':
         license='MIT',
         version=__version__,
         description=__description__,
-        long_description=open('README.md').read(),
+        long_description=open('README.md', encoding='UTF-8').read(),
         long_description_content_type='text/markdown',
         author=__author__,
         author_email=__author_email__,
@@ -28,7 +28,7 @@ if __name__ == '__main__':
             'cx-Oracle>=6.4.1',
         ],
         classifiers=[
-            'Development Status :: 4 - Beta',
+            'Development Status :: 5 - Production/Stable',
             'Environment :: Web Environment',
             'Framework :: Django',
             'Intended Audience :: Developers',
