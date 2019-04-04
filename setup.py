@@ -13,7 +13,7 @@ if __name__ == '__main__':
         license='MIT',
         version=__version__,
         description=__description__,
-        long_description=open('README.md', encoding='UTF-8').read(),
+        long_description=open('README.md').read(),
         long_description_content_type='text/markdown',
         author=__author__,
         author_email=__author_email__,
