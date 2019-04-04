@@ -20,7 +20,7 @@ pool_default_params = {
 }
 
 
-class BaseDatabaseWrapper:
+class BaseDatabaseWrapper(object):
     def get_new_connection(self, conn_params):
         """
         覆盖 Django 的 get_new_connection 方法
