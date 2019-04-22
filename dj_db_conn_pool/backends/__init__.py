@@ -67,7 +67,7 @@ class BaseDatabaseWrapper(object):
                     # 判断数据库连接的状态，以便 SQLAlchemy 维护该连接池
                     dialect=self.SQLAlchemyDialect(dbapi=self.Database),
                     # 一些固定的参数
-                    pre_ping=True, echo=True, timeout=None, **pool_params
+                    pre_ping=True, echo=False, timeout=None, **pool_params
                 )
 
                 logger.debug('%s 数据库连接池已创建, 参数: %s',
