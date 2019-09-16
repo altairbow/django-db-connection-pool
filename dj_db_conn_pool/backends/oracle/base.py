@@ -3,7 +3,7 @@
 from django.db.backends.oracle import base
 from cx_Oracle import DatabaseError
 from sqlalchemy.dialects.oracle.cx_oracle import OracleDialect
-from dj_db_conn_pool.backends import PooledDatabaseWrapperMixin
+from dj_db_conn_pool.core.mixins import PooledDatabaseWrapperMixin
 
 
 class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
