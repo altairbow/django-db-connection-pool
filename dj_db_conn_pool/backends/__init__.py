@@ -3,6 +3,7 @@
 import threading
 from copy import deepcopy
 from sqlalchemy import pool
+from django.utils.translation import ugettext_lazy as _
 
 import logging
 logger = logging.getLogger(__name__)
@@ -70,8 +71,7 @@ class PooledDatabaseWrapperMixin(object):
                     pre_ping=True, echo=False, timeout=None, **pool_params
                 )
 
-                logger.debug('%s 数据库连接池已创建, 参数: %s',
-                             self.alias, pool_params)
+                logger.debug(_("%s's pool has been created, parameter: %s"), self.alias, pool_params)
 
                 # 数据库连接池已创建
                 # 放到 database_pool_dict，以便重用
@@ -79,9 +79,9 @@ class PooledDatabaseWrapperMixin(object):
 
         # 调用 SQLAlchemy 从连接池内取一个连接
         conn = database_pool_dict[self.alias].connect()
-        logger.debug('从池中获取到 %s 数据库的连接', self.alias)
+        logger.debug(_("got %s's connection from its pool"), self.alias)
         return conn
 
     def close(self, *args, **kwargs):
-        logger.debug('释放 %s 数据库连接到池中', self.alias)
+        logger.debug(_("release %s's connection to its pool"), self.alias)
         return super(PooledDatabaseWrapperMixin, self).close(*args, **kwargs)
