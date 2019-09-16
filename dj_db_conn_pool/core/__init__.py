@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import threading
+from django.utils.translation import ugettext_lazy as _
+from dj_db_conn_pool.core.exceptions import PoolDoesNotExist
 
 
 class PoolContainer(dict):
@@ -20,7 +22,10 @@ class PoolContainer(dict):
         self[pool_name] = pool
 
     def get(self, pool_name):
-        return self[pool_name]
+        try:
+            return self[pool_name]
+        except KeyError:
+            raise PoolDoesNotExist(_('No such pool: {pool_name}').format(pool_name=pool_name))
 
 
 # 池容器，保存各个数据库的池（QueuePool）实例
