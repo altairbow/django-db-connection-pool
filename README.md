@@ -33,7 +33,7 @@ MySQL & Oracle connection pool backends of Django, Be based on SQLAlchemy.
             }
         }
         ```
-    * ##### pool options  
+    * ##### pool options(optional)
         you can provide additional options to pass to SQLAlchemy's pool creation, key's name is `POOL_OPTIONS`:
         ```
         DATABASES = {
@@ -71,3 +71,9 @@ MySQL & Oracle connection pool backends of Django, Be based on SQLAlchemy.
                   can be set to -1 to indicate no overflow limit; no limit
                   will be placed on the total number of concurrent
                   connections. Defaults to 10.
+                  
+        or you can use dj_db_conn_pool.setup to change default arguments(for each pool's creation), before using database pool:
+        ```python
+        import dj_db_conn_pool
+        dj_db_conn_pool.setup(pool_size=100, max_overflow=50)
+        ```
