@@ -20,7 +20,7 @@ pool_default_params = {
 }
 
 
-class BaseDatabaseWrapper(object):
+class PooledDatabaseWrapperMixin(object):
     def get_new_connection(self, conn_params):
         """
         覆盖 Django 的 get_new_connection 方法
@@ -61,7 +61,7 @@ class BaseDatabaseWrapper(object):
                     # 我们利用 django 的 get_new_connection 方法
                     # “告诉” QueuePool 怎么去创建一个新的数据库连接
                     # 在获取一个新的数据库连接时，SQLAlchemy 会调用这个 lambda
-                    lambda: super(BaseDatabaseWrapper, self).get_new_connection(conn_params),
+                    lambda: super(PooledDatabaseWrapperMixin, self).get_new_connection(conn_params),
                     # 数据库“方言”
                     # 在这里的作用主要作用是给 SQLAlchemy 利用
                     # 判断数据库连接的状态，以便 SQLAlchemy 维护该连接池
@@ -84,4 +84,4 @@ class BaseDatabaseWrapper(object):
 
     def close(self, *args, **kwargs):
         logger.debug('释放 %s 数据库连接到池中', self.alias)
-        return super(BaseDatabaseWrapper, self).close(*args, **kwargs)
+        return super(PooledDatabaseWrapperMixin, self).close(*args, **kwargs)
