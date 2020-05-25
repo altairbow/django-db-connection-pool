@@ -6,4 +6,5 @@ from dj_db_conn_pool.core.mixins import PooledDatabaseWrapperMixin
 
 
 class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
-    SQLAlchemyDialect = MySQLDialect_pymysql
+    class SQLAlchemyDialect(MySQLDialect_pymysql):
+        server_version_info = (0, )
