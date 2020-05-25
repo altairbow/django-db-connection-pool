@@ -11,8 +11,12 @@ class PoolContainer(dict):
 
     # 单个数据库连接池的默认参数
     pool_default_params = {
+        'pre_ping': True,
+        'echo': True,
+        'timeout': None,
+        'recycle': 60 * 60,
         'pool_size': 10,
-        'max_overflow': 10
+        'max_overflow': 10,
     }
 
     def has(self, pool_name):

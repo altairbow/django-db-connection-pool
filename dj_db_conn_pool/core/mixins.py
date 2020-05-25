@@ -54,8 +54,8 @@ class PooledDatabaseWrapperMixin(object):
                     # 数据库方言
                     # 用于 SQLAlchemy 维护该连接池
                     dialect=self.SQLAlchemyDialect(dbapi=self.Database),
-                    # 一些固定的参数
-                    pre_ping=True, echo=False, timeout=None, **pool_params
+                    # 自定义参数
+                    **pool_params
                 )
 
                 logger.debug(_("%s's pool has been created, parameter: %s"), self.alias, pool_params)
@@ -64,8 +64,10 @@ class PooledDatabaseWrapperMixin(object):
                 # 放到 pool_container，以便重用
                 pool_container.put(self.alias, alias_pool)
 
-        # 调用 SQLAlchemy 从连接池内取一个连接
-        conn = pool_container.get(self.alias).connect()
+        # SQLAlchemy 连接池
+        db_pool = pool_container.get(self.alias)
+        # 从连接池取连接
+        conn = db_pool.connect()
         logger.debug(_("got %s's connection from its pool"), self.alias)
         return conn
 
