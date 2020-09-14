@@ -1,6 +1,6 @@
 # django-db-connection-pool
 
-MySQL & Oracle connection pool backends of Django, Be based on SQLAlchemy.
+MySQL & Oracle & PostgreSQL connection pool backends of Django, Be based on SQLAlchemy.
 
 
 #### Quickstart
@@ -29,6 +29,17 @@ MySQL & Oracle connection pool backends of Django, Be based on SQLAlchemy.
             'default': {
                 ...
                 'ENGINE': 'dj_db_conn_pool.backends.oracle'
+                ...
+            }
+        }
+        ```
+     * ##### PostgreSQL  
+        change `django.db.backends.postgresql` to `dj_db_conn_pool.backends.postgresql`:
+        ```
+        DATABASES = {
+            'default': {
+                ...
+                'ENGINE': 'dj_db_conn_pool.backends.postgresql'
                 ...
             }
         }

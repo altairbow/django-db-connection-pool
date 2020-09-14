@@ -1,6 +1,6 @@
 # django-db-connection-pool
 
-驱动 Django MySQL、Oracle 连接池的轮子, 基于 SQLAlchemy 队列池
+驱动 Django MySQL、Oracle、PostgreSQL连接池的轮子, 基于 SQLAlchemy 队列池
 
 #### 快速开始
 1. 使用 `pip` 进行:
@@ -28,6 +28,17 @@
             'default': {
                 ...
                 'ENGINE': 'dj_db_conn_pool.backends.oracle'
+                ...
+            }
+        }
+        ```
+    * ##### PostgreSQL  
+        将 ENGINE `django.db.backends.postgresql` 更改为 `dj_db_conn_pool.backends.postgresql`:
+        ```
+        DATABASES = {
+            'default': {
+                ...
+                'ENGINE': 'dj_db_conn_pool.backends.postgresql'
                 ...
             }
         }
