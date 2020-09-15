@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from django.db.backends.postgresql_psycopg2 import base
-from sqlalchemy.dialects.postgresql.psycopg2 import PGDialect
+from django.db.backends.postgresql import base
+from sqlalchemy.dialects.postgresql.base import PGDialect
 from dj_db_conn_pool.core.mixins import PooledDatabaseWrapperMixin
 
 
