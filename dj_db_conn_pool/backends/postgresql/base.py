@@ -6,5 +6,5 @@ from dj_db_conn_pool.core.mixins import PooledDatabaseWrapperMixin
 
 
 class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
-    class PostgreSQLDialect(PGDialect):
+    class SQLAlchemyDialect(PGDialect):
         pass
