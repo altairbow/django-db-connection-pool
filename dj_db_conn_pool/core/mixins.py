@@ -13,17 +13,21 @@ logger = logging.getLogger(__name__)
 class PooledDatabaseWrapperMixin(object):
     def get_new_connection(self, conn_params):
         """
-        覆盖 Django 的 get_new_connection 方法
-        在 Django 调用此方法时，检查 pool_container 中是否有 self.alias 的连接池
-        如果没有，则初始化 self.alias 的连接池，然后从池中取出一个连接
-        如果有，则直接从池中取出一个连接返回
+        override django.db.backends.<database>.base.DatabaseWrapper.get_new_connection to
+        change the default behavior of getting new connection to database, we maintain
+        pool_container who contains the connection pool of each database here
+        when django call this method to get new connection, we check whether there exists
+        the pool of this database(self.alias)
+        if the target pool doesn't exist, we will create one
+        then grab one connection from the pool and return it to django
         :return:
         """
         with pool_container.lock:
-            # 获取锁后，判断当前数据库（self.alias）的池是否存在
-            # 不存在，开始初始化
+            # acquire the lock, check whether there exists the pool of this database
             if not pool_container.has(self.alias):
-                # 复制一份默认参数给当前数据库
+                # self.alias's pool doesn't exist, time to create it
+
+                # make a copy of default parameters
                 pool_params = deepcopy(pool_container.pool_default_params)
 
                 # 开始解析、组装当前数据库的连接配置
