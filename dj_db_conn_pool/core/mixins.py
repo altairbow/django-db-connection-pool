@@ -23,54 +23,57 @@ class PooledDatabaseWrapperMixin(object):
         :return:
         """
         with pool_container.lock:
-            # acquire the lock, check whether there exists the pool of this database
+            # acquire the lock, check whether there exists the pool of current database
+            # note: the value of self.alias is the name of current database, one of setting.DATABASES
             if not pool_container.has(self.alias):
                 # self.alias's pool doesn't exist, time to create it
 
                 # make a copy of default parameters
                 pool_params = deepcopy(pool_container.pool_default_params)
 
-                # 开始解析、组装当前数据库的连接配置
+                # parse parameters of current database from self.settings_dict
                 pool_setting = {
-                    # 把 POOL_OPTIONS 内的参数名转换为小写
-                    # 与 QueuePool 的参数对应
+                    # transform the keys in POOL_OPTIONS to upper case
+                    # to fit sqlalchemy.pool.QueuePool's arguments requirement
                     key.lower(): value
-                    # 取每个 POOL_OPTIONS 内参数
+                    # traverse POOL_OPTIONS to get arguments
                     for key, value in
-                    # self.settings_dict 由 Django 提供，是 self.alias 的连接参数
+                    # self.settings_dict was created by Django
+                    # is the connection parameters of self.alias
                     self.settings_dict.get('POOL_OPTIONS', {}).items()
-                    # 此处限制 POOL_OPTIONS 内的参数：
-                    # POOL_OPTIONS 内的参数名必须是大写的
-                    # 而且其小写形式必须在 pool_default_params 内
+                    # There are some limits of self.alias's pool's option(POOL_OPTIONS):
+                    # the keys in POOL_OPTIONS must be capitalised
+                    # and the keys's lowercase must be in pool_container.pool_default_params
                     if key == key.upper() and key.lower() in pool_container.pool_default_params
                 }
 
-                # 现在 pool_setting 已经组装完成
-                # 覆盖 pool_params 的参数（以输入用户的配置）
+                # replace pool_params's items with pool_setting's items
+                # to import custom parameters
                 pool_params.update(**pool_setting)
 
-                # 现在参数已经具备
-                # 创建 self.alias 的连接池实例
+                # now we have all parameters of self.alias
+                # create self.alias's pool
                 alias_pool = pool.QueuePool(
-                    # QueuePool 的 creator 参数
-                    # 在获取一个新的数据库连接时，SQLAlchemy 会调用这个匿名函数
+                    # super().get_new_connection was defined by
+                    # dj_db_conn_pool.backends.<database>.base.DatabaseWrapper or
+                    # django.db.backends.<database>.base.DatabaseWrapper
+                    # the method of connection initiation
                     lambda: super(PooledDatabaseWrapperMixin, self).get_new_connection(conn_params),
-                    # 数据库方言
-                    # 用于 SQLAlchemy 维护该连接池
+                    # SQLAlchemy use the dialect to maintain the pool
                     dialect=self.SQLAlchemyDialect(dbapi=self.Database),
-                    # 自定义参数
+                    # parameters of self.alias
                     **pool_params
                 )
 
                 logger.debug(_("%s's pool has been created, parameter: %s"), self.alias, pool_params)
 
-                # 数据库连接池已创建
-                # 放到 pool_container，以便重用
+                # pool has been created
+                # put into pool_container for reusing
                 pool_container.put(self.alias, alias_pool)
 
-        # SQLAlchemy 连接池
+        # get self.alias's pool from pool_container
         db_pool = pool_container.get(self.alias)
-        # 从连接池取连接
+        # get one connection from the pool
         conn = db_pool.connect()
         logger.debug(_("got %s's connection from its pool"), self.alias)
         return conn
