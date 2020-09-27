@@ -6,10 +6,10 @@ from dj_db_conn_pool.core.exceptions import PoolDoesNotExist
 
 
 class PoolContainer(dict):
-    # 修改池容器时需要请求的锁
+    # acquire this lock before modify pool_container
     lock = threading.Lock()
 
-    # 单个数据库连接池的默认参数
+    # the default parameters of pool
     pool_default_params = {
         'pre_ping': True,
         'echo': True,
@@ -32,5 +32,5 @@ class PoolContainer(dict):
             raise PoolDoesNotExist(_('No such pool: {pool_name}').format(pool_name=pool_name))
 
 
-# 池容器，保存各个数据库的池（QueuePool）实例
+# the pool's container, for maintaining the pools
 pool_container = PoolContainer()
