@@ -1,3 +1,4 @@
+import shutil
 import setuptools
 
 from dj_db_conn_pool import (
@@ -7,7 +8,17 @@ from dj_db_conn_pool import (
     __description__
 )
 
-if __name__ == '__main__':
+
+def clean(name):
+    def decorator(func):
+        def smash_the_egg():
+            shutil.rmtree(name + '.egg-info', ignore_errors=True)
+        return lambda: [fn() for fn in [smash_the_egg, func, smash_the_egg]]
+    return decorator
+
+
+@clean('django_db_connection_pool')
+def setup():
     setuptools.setup(
         name='django-db-connection-pool',
         license='MIT',
@@ -40,3 +51,7 @@ if __name__ == '__main__':
         ],
         keywords=['django', 'db', 'database', 'persistent', 'connection', 'pool'],
     )
+
+
+if __name__ == '__main__':
+    setup()
