@@ -37,7 +37,7 @@ def setup():
             'SQLAlchemy>=1.2.16',
             'PyMySQL>=0.9.3',
             'cx-Oracle>=6.4.1',
-            'psycopg2>=2.8.6'
+            # 'psycopg2>=2.8.6'
         ],
         classifiers=[
             'Development Status :: 5 - Production/Stable',
