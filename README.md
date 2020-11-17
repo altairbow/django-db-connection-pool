@@ -4,10 +4,15 @@ MySQL & Oracle & PostgreSQL connection pool backends of Django, Be based on SQLA
 
 
 #### Quickstart
-1. Install with `pip`:
+1. Install with `pip` with all engines:
     ```bash
-    $ pip install django-db-connection-pool
+    $ pip install django-db-connection-pool[all]
     ```
+    or select specific engines:
+    ```bash
+    $ pip install django-db-connection-pool[mysql,oracle,postgresql]
+    ```
+    
 
 2. Configuration
     * ##### MySQL  
