@@ -35,10 +35,13 @@ def setup():
         install_requires=[
             'Django',
             'SQLAlchemy>=1.2.16',
-            'PyMySQL>=0.9.3',
-            'cx-Oracle>=6.4.1',
-            'psycopg2>=2.8.6'
         ],
+        extras_require={
+            'all': ['PyMySQL>=0.9.3', 'cx-Oracle>=6.4.1', 'psycopg2>=2.8.6'],
+            'mysql': ['PyMySQL>=0.9.3'],
+            'oracle': ['cx-Oracle>=6.4.1'],
+            'postgresql': ['psycopg2>=2.8.6'],
+        },
         classifiers=[
             'Development Status :: 5 - Production/Stable',
             'Environment :: Web Environment',
