@@ -1,11 +1,16 @@
 # django-db-connection-pool
 
 驱动 Django MySQL、Oracle、PostgreSQL连接池的轮子, 基于 SQLAlchemy 队列池
+* [English version](https://github.com/altairbow/django-db-connection-pool/blob/master/README.md)
 
 #### 快速开始
-1. 使用 `pip` 进行:
+1. 使用 `pip` 安装所有所支持的数据库组件:
     ```bash
-    $ pip install django-db-connection-pool
+    $ pip install django-db-connection-pool[all]
+    ```
+    或者是选择性安装数据库组件:
+    ```bash
+    $ pip install django-db-connection-pool[mysql,oracle,postgresql]
     ```
 
 2. 更新 DATABASES 的 配置
