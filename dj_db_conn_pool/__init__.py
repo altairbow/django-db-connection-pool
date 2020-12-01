@@ -9,6 +9,4 @@ def setup(**kwargs):
 
     for key, value in kwargs.items():
         if key in pool_container.pool_default_params:
-            pool_container.pool_default_params.update(
-                key=value
-            )
+            pool_container.pool_default_params[key] = value
