@@ -1,7 +1,11 @@
 # django-db-connection-pool
 
-MySQL & Oracle & PostgreSQL connection pool backends of Django, Be based on SQLAlchemy.
-* [中文版](https://github.com/altairbow/django-db-connection-pool/blob/master/README_CN.md)
+*:star: Leave a star if django-db-connection-pool is helpful to you or you like it, Thank you:smile:*
+
+MySQL & Oracle & PostgreSQL connection pool backends of Django, Be based on SQLAlchemy. 
+Work fine in multiprocessing and multithreading django project.
+
+* [中文版](README_CN.md)
 
 #### Quickstart
 1. Install with `pip` with all engines:
@@ -12,7 +16,10 @@ MySQL & Oracle & PostgreSQL connection pool backends of Django, Be based on SQLA
     ```bash
     $ pip install django-db-connection-pool[mysql,oracle,postgresql]
     ```
-    
+    or one of mysql,oracle,postgresql
+    ```bash
+    $ pip install django-db-connection-pool[oracle]
+    ```
 
 2. Configuration
     * ##### MySQL  
