@@ -8,3 +8,7 @@ from dj_db_conn_pool.core.mixins import PooledDatabaseWrapperMixin
 class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
     class SQLAlchemyDialect(PGDialect_psycopg2):
         pass
+
+    def _set_autocommit(self, autocommit):
+        with self.wrap_database_errors:
+            self.connection.dbapi_connection.autocommit = autocommit
