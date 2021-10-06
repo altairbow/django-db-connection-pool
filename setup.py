@@ -35,7 +35,7 @@ def setup():
         include_package_data=True,
         install_requires=[
             'Django',
-            'SQLAlchemy>=1.2.16',
+            'SQLAlchemy>=1.4.24',
         ],
         extras_require={
             'all': ['PyMySQL>=0.9.3', 'cx-Oracle>=6.4.1', 'psycopg2>=2.8.6'],
