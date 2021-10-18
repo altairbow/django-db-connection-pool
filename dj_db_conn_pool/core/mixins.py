@@ -82,6 +82,11 @@ class PooledDatabaseWrapperMixin(object):
         logger.debug(_("got %s's connection from its pool"), self.alias)
         return conn
 
+    def _close(self):
+        pass
+
     def close(self, *args, **kwargs):
+        self._close()
+
         logger.debug(_("release %s's connection to its pool"), self.alias)
         return super(PooledDatabaseWrapperMixin, self).close(*args, **kwargs)
