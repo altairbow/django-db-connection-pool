@@ -2,7 +2,7 @@
 
 *:star: 如果这个库能对你有所帮助，不妨点个star，谢谢:smile:*
 
-驱动 Django MySQL、Oracle、PostgreSQL连接池的轮子, 基于 SQLAlchemy 队列池。
+驱动 Django MySQL、Oracle、PostgreSQL、JDBC(JAVA 数据库连接，目前处于实验阶段，使用方法随后更新) 连接池的轮子, 基于 SQLAlchemy 队列池。
 在多进程、多线程 django 项目中，运行良好。
 
 * [English version](README.md)

@@ -2,7 +2,7 @@
 
 *:star: Leave a star if django-db-connection-pool is helpful to you or you like it, Thank you:smile:*
 
-MySQL & Oracle & PostgreSQL connection pool backends of Django, Be based on SQLAlchemy. 
+MySQL & Oracle & PostgreSQL & JDBC(Java Database Connectivity, Experimental, usage will update later) connection pool backends of Django, Be based on SQLAlchemy. 
 Work fine in multiprocessing and multithreading django project.
 
 * [中文版](README_CN.md)
