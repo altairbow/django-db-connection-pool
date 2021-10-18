@@ -51,14 +51,18 @@ class PooledDatabaseWrapperMixin(object):
                 # to import custom parameters
                 pool_params.update(**pool_setting)
 
+                # method of connection initiation defined by django
+                # django.db.backends.<database>.base.DatabaseWrapper
+                django_get_new_connection = super(PooledDatabaseWrapperMixin, self).get_new_connection
+
+                # method of connection initiation defined by
+                # dj_db_conn_pool.backends.<database>.base.DatabaseWrapper
+                get_new_connection = getattr(self, '_get_new_connection', django_get_new_connection)
+
                 # now we have all parameters of self.alias
                 # create self.alias's pool
                 alias_pool = pool.QueuePool(
-                    # super().get_new_connection was defined by
-                    # dj_db_conn_pool.backends.<database>.base.DatabaseWrapper or
-                    # django.db.backends.<database>.base.DatabaseWrapper
-                    # the method of connection initiation
-                    lambda: super(PooledDatabaseWrapperMixin, self).get_new_connection(conn_params),
+                    lambda: get_new_connection(conn_params),
                     # SQLAlchemy use the dialect to maintain the pool
                     dialect=self.SQLAlchemyDialect(dbapi=self.Database),
                     # parameters of self.alias
