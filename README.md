@@ -64,14 +64,17 @@ Work fine in multiprocessing and multithreading django project.
                 ...
                 'POOL_OPTIONS' : {
                     'POOL_SIZE': 10,
-                    'MAX_OVERFLOW': 10
+                    'MAX_OVERFLOW': 10,
+                    'RECYCLE': 24 * 60 * 60
                 }
                 ...
              }
          }
         ```
         
-        Here's explanation of these options(from SQLAlchemy's Doc):
+        `django-db-connection-pool` has more configuration options here: [PoolContainer.pool_default_params](https://github.com/altairbow/django-db-connection-pool/blob/master/dj_db_conn_pool/core/__init__.py#L13-L20)
+             
+        Here's an explanation of these options(from SQLAlchemy's Doc):
         
         * **pool_size**: The size of the pool to be maintained,
                   defaults to 5. This is the largest number of connections that
@@ -95,7 +98,14 @@ Work fine in multiprocessing and multithreading django project.
                   will be placed on the total number of concurrent
                   connections. Defaults to 10.
                   
-        or you can use dj_db_conn_pool.setup to change default arguments(for each pool's creation), before using database pool:
+        * **recycle**: If set to a value other than -1, number of seconds 
+                  between connection recycling, which means upon checkout, 
+                  if this timeout is surpassed the connection will be closed 
+                  and replaced with a newly opened connection. 
+                  Defaults to -1.          
+                  
+        Or, you can use dj_db_conn_pool.setup to change default arguments(for each pool's creation), before using database pool:
+
         ```python
         import dj_db_conn_pool
         dj_db_conn_pool.setup(pool_size=100, max_overflow=50)
