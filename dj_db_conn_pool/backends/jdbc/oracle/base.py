@@ -77,7 +77,7 @@ class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
     __repr__ = __str__
 
     def _close(self):
-        if self.connection.connection.jconn.getAutoCommit():
+        if self.connection is not None and self.connection.connection.jconn.getAutoCommit():
             # if jdbc connection's autoCommit is on
             # jaydebeapi will throw an exception after rollback called
             # we make a little dynamic patch here, make sure
