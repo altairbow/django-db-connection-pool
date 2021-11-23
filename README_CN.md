@@ -62,18 +62,22 @@ DATABASES = {
 全部用光后，程序又请求了第11个连接，此时的连接池容量将短暂超过 POOL_SIZE，但最大不超过 POOL_SIZE + MAX_OVERFLOW，
 如果程序请求 default 数据库的连接数量超过 POOL_SIZE + MAX_OVERFLOW，那么连接池将一直等待直到程序释放连接，
 请注意线程池对数据库连接池的使用，如果线程池大于连接池，且线程无主动释放连接的动作，可能会造成其他线程一直阻塞。
+
 ```python
 DATABASES = {
     'default': {
         'POOL_OPTIONS' : {
             'POOL_SIZE': 10,
-            'MAX_OVERFLOW': 10
+            'MAX_OVERFLOW': 10,
+            'RECYCLE': 24 * 60 * 60
         }
      }
  }
 ```
 
-附这两个参数的解释：(摘录于 SQLAlchemy 的文档):
+查看更多参数: [PoolContainer.pool_default_params](https://github.com/altairbow/django-db-connection-pool/blob/master/dj_db_conn_pool/core/__init__.py#L13-L20)
+
+附这些参数的解释：(摘录于 SQLAlchemy 的文档):
 
 * **pool_size**: The size of the pool to be maintained,
           defaults to 5. This is the largest number of connections that
@@ -97,13 +101,26 @@ DATABASES = {
           will be placed on the total number of concurrent
           connections. Defaults to 10.
 
+* **recycle**: If set to a value other than -1, number of seconds 
+          between connection recycling, which means upon checkout, 
+          if this timeout is surpassed the connection will be closed 
+          and replaced with a newly opened connection. 
+          Defaults to -1.       
+
+或者调用 `dj_db_conn_pool.setup` 覆盖默认参数
+
+```python
+import dj_db_conn_pool
+dj_db_conn_pool.setup(pool_size=100, max_overflow=50)
+```
+
 ## JDBC
 基于 [JPype](https://github.com/jpype-project/jpype)、[JayDeBeApi](https://github.com/baztian/jaydebeapi/)，
 django-db-connection-pool 现在可以通过 jdbc 连接到数据库并保持连接
 
 ### 配置方法
 #### 设置环境变量
-```shell
+```bash
 export JAVA_HOME=$PATH_TO_JRE;
 export CLASSPATH=$PATH_RO_JDBC_DRIVER_JAR
 ```
@@ -131,4 +148,3 @@ DATABASES = {
 
 #### MySQL 等
 将陆续补充
-```
