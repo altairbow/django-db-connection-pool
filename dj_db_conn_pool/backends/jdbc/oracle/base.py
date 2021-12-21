@@ -4,6 +4,7 @@ import types
 import getpass
 import socket
 from multiprocessing import current_process
+import jpype
 import jaydebeapi
 from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect
@@ -15,7 +16,12 @@ logger = logging.getLogger(__name__)
 
 
 class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
-    SQLAlchemyDialect = OracleDialect
+    class SQLAlchemyDialect(OracleDialect):
+        def do_ping(self, dbapi_connection):
+            try:
+                return super(OracleDialect, self).do_ping(dbapi_connection)
+            except (jaydebeapi.DatabaseError, jpype.JException):
+                return False
 
     JDBC_DEFAULT_OPTIONS = {
         'DRIVER': 'oracle.jdbc.OracleDriver',
