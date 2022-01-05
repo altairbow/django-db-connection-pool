@@ -2,7 +2,7 @@
 
 from copy import deepcopy
 from sqlalchemy import pool
-from django.utils.translation import gettext_lazy as _
+from dj_db_conn_pool.compat import gettext_lazy as _
 from dj_db_conn_pool.core import pool_container
 
 
