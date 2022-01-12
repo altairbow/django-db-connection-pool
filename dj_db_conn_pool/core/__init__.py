@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import threading
-from django.utils.translation import ugettext_lazy as _
+from dj_db_conn_pool.compat import gettext_lazy as _
 from dj_db_conn_pool.core.exceptions import PoolDoesNotExist
 
 
