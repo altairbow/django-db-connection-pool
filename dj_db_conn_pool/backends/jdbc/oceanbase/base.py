@@ -19,9 +19,10 @@ class DatabaseWrapper(JDBCDatabaseWrapper, base.DatabaseWrapper):
             except (jaydebeapi.DatabaseError, jpype.JException):
                 return False
 
-    JDBC_DRIVER = 'com.alipay.oceanbase.jdbc.Driver'
+    jdbc_driver = 'com.alipay.oceanbase.jdbc.Driver'
 
-    def _get_jdbc_url(self):
+    @property
+    def jdbc_url(self):
         return 'jdbc:oceanbase://{NAME}'.format(**self.settings_dict)
 
     def init_connection_state(self):

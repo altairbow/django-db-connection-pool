@@ -28,7 +28,7 @@ def patch_converters():
         dt = dt.replace(microsecond=int(str(java_val.getNanos())[:6]))
         return dt
 
-    getattr(jaydebeapi, '_DEFAULT_CONVERTERS').update(
+    jaydebeapi._DEFAULT_CONVERTERS.update(
         {
             'TIMESTAMP': _to_datetime,
             'VARCHAR': _to_str

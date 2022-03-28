@@ -9,28 +9,26 @@ logger = logging.getLogger(__name__)
 
 
 class JDBCDatabaseWrapper(PooledDatabaseWrapperMixin):
-    JDBC_DRIVER = None
-
-    def _get_jdbc_driver(self):
-        if self.JDBC_DRIVER is None:
-            raise NotImplementedError()
-
-        return self.JDBC_DRIVER
-
-    def _get_jdbc_url(self):
+    @property
+    def jdbc_driver(self):
         raise NotImplementedError()
 
-    def _get_jdbc_options(self):
+    @property
+    def jdbc_url(self):
+        raise NotImplementedError()
+
+    @property
+    def jdbc_options(self):
         return self.settings_dict.get('JDBC_OPTIONS', {})
 
     def _get_new_connection(self, conn_params):
         conn = jaydebeapi.connect(
-            self._get_jdbc_driver(),
-            self._get_jdbc_url(),
+            self.jdbc_driver,
+            self.jdbc_url,
             {
                 'user': self.settings_dict['USER'],
                 'password': self.settings_dict['PASSWORD'],
-                **self._get_jdbc_options()
+                **self.jdbc_options
             }
         )
 
@@ -68,3 +66,15 @@ class JDBCDatabaseWrapper(PooledDatabaseWrapperMixin):
         return 'JDBC Connection to {NAME}'.format(**self.settings_dict)
 
     __repr__ = __str__
+
+    def _close(self):
+        if self.connection is not None and self.connection.connection.jconn.getAutoCommit():
+            # if jdbc connection's autoCommit is on
+            # jaydebeapi will throw an exception after rollback called
+            # we make a little dynamic patch here, make sure
+            # SQLAlchemy will not do rollback before recycling connection
+            self.connection._pool._reset_on_return = None
+
+            logger.warning(
+                "current JDBC connection(to %s)'s autoCommit is on, won't do rollback before returning",
+                self.alias)
