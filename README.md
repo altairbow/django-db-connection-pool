@@ -2,7 +2,7 @@
 
 *:star: Leave a star if django-db-connection-pool is helpful to you, or you like it, Thank you:smile:*
 
-MySQL & Oracle & PostgreSQL & JDBC connection pool backends of Django, 
+MySQL & Oracle & PostgreSQL & JDBC (Oracle, OceanBase) connection pool backends of Django, 
 Be based on [SQLAlchemy](https://github.com/sqlalchemy/sqlalchemy). 
 Work fine in multiprocessing and multithreading django project.
 
@@ -57,7 +57,7 @@ DATABASES = {
 }
 ```
 
-#### pool options(optional)
+#### Pool options(optional)
 you can provide additional options to pass to SQLAlchemy's pool creation, key's name is `POOL_OPTIONS`:
 
 ```python
@@ -111,19 +111,19 @@ import dj_db_conn_pool
 dj_db_conn_pool.setup(pool_size=100, max_overflow=50)
 ```
 
-## JDBC
-Thanks to [JPype](https://github.com/jpype-project/jpype)、[JayDeBeApi](https://github.com/baztian/jaydebeapi/),
+## JDBC (experimental, NOT PRODUCTION READY)
+Thanks to [JPype](https://github.com/jpype-project/jpype) [JayDeBeApi](https://github.com/baztian/jaydebeapi/) ,
 django-db-connection-pool can connect to database in jdbc way
 
 ### Usage
-#### Setup java runtime env
+#### Set Java runtime environment
 ```bash
 export JAVA_HOME=$PATH_TO_JRE;
 export CLASSPATH=$PATH_RO_JDBC_DRIVER_JAR
 ```
 
-### Start JVM
-Start JVM before Django's app initialization
+#### Start JVM
+Start JVM before initialization of Django
 
 ```python
 import jpype
@@ -131,10 +131,10 @@ jvm_path = jpype.getDefaultJVMPath()
 jpype.startJVM(jvm_path)
 ```
 
-### Update settings.DATABASES
-#### JDBC Oracle
+#### Update settings.DATABASES
+##### Oracle
 
-change `django.db.backends.oracle` to `dj_db_conn_pool.backends.oracle`:
+change `django.db.backends.oracle` to `dj_db_conn_pool.backends.jdbc.oracle`:
 ```python
 DATABASES = {
     'default': {
@@ -143,5 +143,12 @@ DATABASES = {
 }
 ```
 
-#### MySQL and etc.
-already in todo list...
+##### OceanBase
+use `dj_db_conn_pool.backends.jdbc.oceanbase`:
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'dj_db_conn_pool.backends.jdbc.oceanbase'
+    }
+}
+```

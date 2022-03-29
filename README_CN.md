@@ -2,7 +2,7 @@
 
 *:star: 如果这个库能对你有所帮助，不妨点个star，谢谢:smile:*
 
-驱动 Django 访问 MySQL、Oracle、PostgreSQL、JDBC 连接池的轮子, 
+驱动 Django 访问 MySQL、Oracle、PostgreSQL、JDBC (Oracle, OceanBase) 连接池的轮子, 
 基于 [SQLAlchemy](https://github.com/sqlalchemy/sqlalchemy) 队列池。
 在多进程、多线程 django 项目中，运行良好。
 
@@ -114,18 +114,17 @@ import dj_db_conn_pool
 dj_db_conn_pool.setup(pool_size=100, max_overflow=50)
 ```
 
-## JDBC
-基于 [JPype](https://github.com/jpype-project/jpype)、[JayDeBeApi](https://github.com/baztian/jaydebeapi/)，
-django-db-connection-pool 现在可以通过 jdbc 连接到数据库并保持连接
+## JDBC（仍在完善中，不建议用于生产）
+基于 [JPype](https://github.com/jpype-project/jpype) [JayDeBeApi](https://github.com/baztian/jaydebeapi/) ，django-db-connection-pool 现在可以通过 jdbc 连接到数据库并保持连接
 
-### 配置方法
+### 使用方法
 #### 设置环境变量
 ```bash
 export JAVA_HOME=$PATH_TO_JRE;
 export CLASSPATH=$PATH_RO_JDBC_DRIVER_JAR
 ```
 
-### 启动 JVM
+#### 启动 JVM
 在引用 `dj_db_conn_pool.backends.jdbc.xxx` 前，调用 jpype 启动 JVM
 
 ```python
@@ -134,8 +133,8 @@ jvm_path = jpype.getDefaultJVMPath()
 jpype.startJVM(jvm_path)
 ```
 
-### 更新 settings.DATABASES 配置
-#### JDBC Oracle
+#### 更新 settings.DATABASES 配置
+##### Oracle
 
 将 ENGINE `django.db.backends.oracle` 更改为 `dj_db_conn_pool.backends.jdbc.oracle`:
 ```python
@@ -146,5 +145,12 @@ DATABASES = {
 }
 ```
 
-#### MySQL 等
-将陆续补充
+##### OceanBase
+使用 `dj_db_conn_pool.backends.jdbc.oceanbase` 作为 Django 数据库后端:
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'dj_db_conn_pool.backends.jdbc.oceanbase'
+    }
+}
+```
