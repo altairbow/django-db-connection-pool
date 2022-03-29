@@ -12,3 +12,8 @@ class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
     def _set_autocommit(self, autocommit):
         with self.wrap_database_errors:
             self.connection.dbapi_connection.autocommit = autocommit
+
+    def __str__(self):
+        return 'PostgreSQL connection to {NAME}'.format(**self.settings_dict)
+
+    __repr__ = __str__

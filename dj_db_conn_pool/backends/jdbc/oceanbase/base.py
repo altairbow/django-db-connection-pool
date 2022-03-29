@@ -26,4 +26,5 @@ class DatabaseWrapper(JDBCDatabaseWrapper, base.DatabaseWrapper):
         return 'jdbc:oceanbase://{NAME}'.format(**self.settings_dict)
 
     def init_connection_state(self):
+        # TODO: custom OceanBase connection initialization
         pass

@@ -63,7 +63,7 @@ class JDBCDatabaseWrapper(PooledDatabaseWrapperMixin):
         return cursor
 
     def __str__(self):
-        return 'JDBC Connection to {NAME}'.format(**self.settings_dict)
+        return 'JDBC connection to {NAME}'.format(**self.settings_dict)
 
     __repr__ = __str__
 
