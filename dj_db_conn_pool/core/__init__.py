@@ -13,8 +13,8 @@ class PoolContainer(dict):
     pool_default_params = {
         'pre_ping': True,
         'echo': True,
-        'timeout': None,
-        'recycle': 60 * 60,
+        'timeout': 30,
+        'recycle': 60 * 15,
         'pool_size': 10,
         'max_overflow': 10,
     }
