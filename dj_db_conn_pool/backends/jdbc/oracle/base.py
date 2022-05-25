@@ -6,7 +6,6 @@ from multiprocessing import current_process
 import jpype
 import jaydebeapi
 from django.db.backends.oracle import base
-from copy import deepcopy
 from sqlalchemy.dialects.oracle.base import OracleDialect
 from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapper
 
@@ -38,11 +37,7 @@ class DatabaseWrapper(JDBCDatabaseWrapper, base.DatabaseWrapper):
 
     @property
     def jdbc_options(self):
-        # make a copy of default option, avoid side effects
-        jdbc_options = deepcopy(oracle_session_info)
-        # get super's jdbc_options
-        options = super(DatabaseWrapper, self).jdbc_options
-        # override default options
-        jdbc_options.update(**options)
-
-        return jdbc_options
+        return {
+            **oracle_session_info,
+            **super(DatabaseWrapper, self).jdbc_options
+        }

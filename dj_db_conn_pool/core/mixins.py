@@ -31,9 +31,6 @@ class PooledDatabaseWrapperMixin(object):
             if not pool_container.has(self.alias):
                 # self.alias's pool doesn't exist, time to create it
 
-                # make a copy of default parameters
-                pool_params = deepcopy(pool_container.pool_default_params)
-
                 # parse parameters of current database from self.settings_dict
                 pool_setting = {
                     # transform the keys in POOL_OPTIONS to upper case
@@ -52,7 +49,10 @@ class PooledDatabaseWrapperMixin(object):
 
                 # replace pool_params's items with pool_setting's items
                 # to import custom parameters
-                pool_params.update(**pool_setting)
+                pool_params = {
+                    **pool_container.pool_default_params,
+                    **pool_setting
+                }
 
                 # now we have all parameters of self.alias
                 # create self.alias's pool
