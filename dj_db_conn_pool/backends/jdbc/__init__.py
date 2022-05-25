@@ -94,8 +94,8 @@ class JDBCDatabaseWrapper(PooledDatabaseWrapperMixin):
             # SQLAlchemy will not do rollback before recycling connection
             self.connection._pool._reset_on_return = None
 
-            logger.warning(
-                "current JDBC connection(to %s)'s autoCommit is on, won't do rollback before returning",
-                self.alias)
+            logger.debug(
+                "autoCommit of current JDBC connection to %s %s is on, won't do rollback before returning",
+                self.alias, self.connection.connection)
 
         return super(JDBCDatabaseWrapper, self)._close()

@@ -74,9 +74,16 @@ class PooledDatabaseWrapperMixin(object):
         db_pool = pool_container.get(self.alias)
         # get one connection from the pool
         conn = db_pool.connect()
-        logger.debug(_("got %s's connection from its pool"), self.alias)
+
+        logger.debug(
+            _("got %s's connection %s from its pool"),
+            self.alias, conn.connection)
+
         return conn
 
     def close(self, *args, **kwargs):
-        logger.debug(_("release %s's connection to its pool"), self.alias)
+        logger.debug(
+            _("release %s's connection %s to its pool"),
+            self.alias, getattr(self.connection, 'connection', None))
+
         return super(PooledDatabaseWrapperMixin, self).close(*args, **kwargs)

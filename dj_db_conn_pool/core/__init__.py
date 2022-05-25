@@ -12,7 +12,7 @@ class PoolContainer(dict):
     # the default parameters of pool
     pool_default_params = {
         'pre_ping': True,
-        'echo': True,
+        'echo': False,
         'timeout': 30,
         'recycle': 60 * 15,
         'pool_size': 10,
