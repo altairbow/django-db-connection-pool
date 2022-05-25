@@ -97,3 +97,5 @@ class JDBCDatabaseWrapper(PooledDatabaseWrapperMixin):
             logger.warning(
                 "current JDBC connection(to %s)'s autoCommit is on, won't do rollback before returning",
                 self.alias)
+
+        return super(JDBCDatabaseWrapper, self)._close()
