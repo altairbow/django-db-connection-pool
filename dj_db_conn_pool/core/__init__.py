@@ -33,4 +33,5 @@ class PoolContainer(dict):
 
 
 # the pool's container, for maintaining the pools
+# every process has it's own pool container
 pool_container = PoolContainer()

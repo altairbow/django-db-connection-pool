@@ -4,11 +4,7 @@ def patch_all():
 
 def patch_converters():
     """
-    ['BIT', 'TINYINT', 'SMALLINT', 'INTEGER', 'BIGINT', 'FLOAT', 'REAL', 'DOUBLE',
-    'NUMERIC', 'DECIMAL', 'CHAR', 'VARCHAR', 'LONGVARCHAR', 'DATE', 'TIME', 'TIMESTAMP',
-    'BINARY', 'VARBINARY', 'LONGVARBINARY', 'NULL', 'OTHER', 'JAVA_OBJECT', 'DISTINCT',
-    'STRUCT', 'ARRAY', 'BLOB', 'CLOB', 'REF', 'DATALINK', 'BOOLEAN', 'ROWID', 'NCHAR',
-    'NVARCHAR', 'LONGNVARCHAR', 'NCLOB', 'SQLXML', 'REF_CURSOR', 'TIME_WITH_TIMEZONE', 'TIMESTAMP_WITH_TIMEZONE']
+    patch jaydebeapi's converters
     """
     from datetime import datetime
     import jaydebeapi

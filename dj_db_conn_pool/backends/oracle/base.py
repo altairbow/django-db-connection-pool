@@ -13,8 +13,3 @@ class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
                 return super(OracleDialect, self).do_ping(dbapi_connection)
             except DatabaseError:
                 return False
-
-    def __str__(self):
-        return 'Oracle connection to {NAME}'.format(**self.settings_dict)
-
-    __repr__ = __str__

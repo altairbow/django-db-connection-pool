@@ -12,6 +12,8 @@ logger = logging.getLogger(__name__)
 
 
 class DatabaseWrapper(JDBCDatabaseWrapper, base.DatabaseWrapper):
+    vendor = 'OceanBase'
+
     class SQLAlchemyDialect(OracleDialect):
         def do_ping(self, dbapi_connection):
             try:

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from copy import deepcopy
 from sqlalchemy import pool
 from dj_db_conn_pool.compat import gettext_lazy as _
 from dj_db_conn_pool.core import pool_container
@@ -11,6 +10,16 @@ logger = logging.getLogger(__name__)
 
 
 class PooledDatabaseWrapperMixin(object):
+    def __str__(self):
+        try:
+            conn = repr(self.connection.connection)
+        except AttributeError:
+            conn = '<Not connected>'
+
+        return f'{self.vendor} connection to {self.alias}: {conn}'
+
+    __repr__ = __str__
+
     def _get_new_connection(self, conn_params):
         return super(PooledDatabaseWrapperMixin, self).get_new_connection(conn_params)
 
@@ -33,7 +42,7 @@ class PooledDatabaseWrapperMixin(object):
 
                 # parse parameters of current database from self.settings_dict
                 pool_setting = {
-                    # transform the keys in POOL_OPTIONS to upper case
+                    # transform the keys in POOL_OPTIONS to lower case
                     # to fit sqlalchemy.pool.QueuePool's arguments requirement
                     key.lower(): value
                     # traverse POOL_OPTIONS to get arguments
@@ -43,12 +52,12 @@ class PooledDatabaseWrapperMixin(object):
                     self.settings_dict.get('POOL_OPTIONS', {}).items()
                     # There are some limits of self.alias's pool's option(POOL_OPTIONS):
                     # the keys in POOL_OPTIONS must be capitalised
-                    # and the keys's lowercase must be in pool_container.pool_default_params
+                    # and the key's lowercase must be in pool_container.pool_default_params
                     if key == key.upper() and key.lower() in pool_container.pool_default_params
                 }
 
                 # replace pool_params's items with pool_setting's items
-                # to import custom parameters
+                # to import custom settings
                 pool_params = {
                     **pool_container.pool_default_params,
                     **pool_setting

@@ -47,9 +47,6 @@ class JDBCDatabaseWrapper(PooledDatabaseWrapperMixin):
         # get cursor from django
         cursor = super().create_cursor(name)
 
-        # just for compatibility
-        # cursor.setinputsizes = types.MethodType(lambda *_: None, cursor)
-
         def _execute(_self, query, parameters=None):
             """
             :param _self: django's cursor
@@ -80,11 +77,6 @@ class JDBCDatabaseWrapper(PooledDatabaseWrapperMixin):
         cursor.execute = types.MethodType(_execute, cursor)
 
         return cursor
-
-    def __str__(self):
-        return 'JDBC connection to {NAME}'.format(**self.settings_dict)
-
-    __repr__ = __str__
 
     def _close(self):
         if self.connection is not None and self.connection.connection.jconn.getAutoCommit():
