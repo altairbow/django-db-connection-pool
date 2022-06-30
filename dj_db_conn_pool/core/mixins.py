@@ -20,6 +20,13 @@ class PooledDatabaseWrapperMixin(object):
 
     __repr__ = __str__
 
+    def _set_autocommit(self, autocommit):
+        with self.wrap_database_errors:
+            try:
+                self.connection.connection.autocommit = autocommit
+            except (Exception, ) as e:
+                logger.exception('unable to set database(%s) autocommit: %s', self.alias, e)
+
     def _get_new_connection(self, conn_params):
         return super(PooledDatabaseWrapperMixin, self).get_new_connection(conn_params)
 

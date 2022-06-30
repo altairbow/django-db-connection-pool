@@ -13,7 +13,3 @@ class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
                 return super(OracleDialect, self).do_ping(dbapi_connection)
             except DatabaseError:
                 return False
-
-    def _set_autocommit(self, autocommit):
-        with self.wrap_database_errors:
-            self.connection.connection.autocommit = autocommit
