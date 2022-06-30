@@ -12,9 +12,5 @@ class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
     class SQLAlchemyDialect(MySQLDialect_pymysql):
         server_version_info = (0, )
 
-    def _set_autocommit(self, autocommit):
-        with self.wrap_database_errors:
-            try:
-                self.connection.connection.autocommit(autocommit)
-            except (Exception, ) as e:
-                logger.exception('unable to set database(%s) autocommit: %s', self.alias, e)
+    def _set_dbapi_autocommit(self, autocommit):
+        self.connection.connection.autocommit(autocommit)

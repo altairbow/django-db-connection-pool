@@ -12,12 +12,8 @@ sql_params = sqlparams.SQLParams('named', 'qmark')
 
 
 class JDBCDatabaseWrapper(PooledDatabaseWrapperMixin):
-    def _set_autocommit(self, autocommit):
-        with self.wrap_database_errors:
-            try:
-                self.connection.connection.jconn.setAutoCommit(autocommit)
-            except (Exception, ) as e:
-                logger.exception('unable to set database(%s) autocommit: %s', self.alias, e)
+    def _set_dbapi_autocommit(self, autocommit):
+        self.connection.connection.jconn.setAutoCommit(autocommit)
 
     @property
     def jdbc_driver(self):

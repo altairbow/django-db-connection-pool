@@ -20,12 +20,17 @@ class PooledDatabaseWrapperMixin(object):
 
     __repr__ = __str__
 
+    def _set_dbapi_autocommit(self, autocommit):
+        self.connection.connection.autocommit = autocommit
+
     def _set_autocommit(self, autocommit):
         with self.wrap_database_errors:
             try:
-                self.connection.connection.autocommit = autocommit
-            except (Exception, ) as e:
-                logger.exception('unable to set database(%s) autocommit: %s', self.alias, e)
+                self._set_dbapi_autocommit(autocommit)
+            except (Exception, ) as exc:
+                logger.exception('unable to set autocommit mode of %s(%s) to %s, caused by: %s',
+                                 self.vendor, self.alias, autocommit, exc)
+                raise exc from None
 
     def _get_new_connection(self, conn_params):
         return super(PooledDatabaseWrapperMixin, self).get_new_connection(conn_params)
