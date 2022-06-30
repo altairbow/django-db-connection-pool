@@ -2,7 +2,7 @@
 
 from django.db.backends.oracle import base
 from cx_Oracle import DatabaseError
-from sqlalchemy.dialects.oracle.cx_oracle import OracleDialect
+from sqlalchemy.dialects.oracle.base import OracleDialect
 from dj_db_conn_pool.core.mixins import PooledDatabaseWrapperMixin
 
 
@@ -16,4 +16,4 @@ class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
 
     def _set_autocommit(self, autocommit):
         with self.wrap_database_errors:
-            self.connection.dbapi_connection.autocommit = autocommit
+            self.connection.connection.autocommit = autocommit
