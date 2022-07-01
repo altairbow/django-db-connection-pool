@@ -4,14 +4,14 @@ import jpype
 import jaydebeapi
 from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect
-from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapper
+from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapperMixin
 
 
 import logging
 logger = logging.getLogger(__name__)
 
 
-class DatabaseWrapper(JDBCDatabaseWrapper, base.DatabaseWrapper):
+class DatabaseWrapper(JDBCDatabaseWrapperMixin, base.DatabaseWrapper):
     vendor = 'OceanBase'
 
     class SQLAlchemyDialect(OracleDialect):

@@ -8,10 +8,10 @@ from dj_db_conn_pool.core.mixins import PooledDatabaseWrapperMixin
 import logging
 logger = logging.getLogger(__name__)
 
-sql_params = sqlparams.SQLParams('named', 'qmark')
+sql_params_converter = sqlparams.SQLParams('named', 'qmark')
 
 
-class JDBCDatabaseWrapper(PooledDatabaseWrapperMixin):
+class JDBCDatabaseWrapperMixin(PooledDatabaseWrapperMixin):
     def _set_dbapi_autocommit(self, autocommit):
         self.connection.connection.jconn.setAutoCommit(autocommit)
 
@@ -59,7 +59,7 @@ class JDBCDatabaseWrapper(PooledDatabaseWrapperMixin):
             """
             if isinstance(parameters, dict):
                 # convert sql and parameters
-                _query, _parameters = sql_params.format(query, parameters)
+                _query, _parameters = sql_params_converter.format(query, parameters)
 
                 logger.debug(
                     'SQL (%s), parameters(%s) has been converted to SQL(%s), parameters(%s)',
@@ -93,4 +93,4 @@ class JDBCDatabaseWrapper(PooledDatabaseWrapperMixin):
                 "autoCommit of current JDBC connection to %s %s is on, won't do rollback before returning",
                 self.alias, self.connection.connection)
 
-        return super(JDBCDatabaseWrapper, self)._close()
+        return super(JDBCDatabaseWrapperMixin, self)._close()

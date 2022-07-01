@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
     class SQLAlchemyDialect(MySQLDialect_pymysql):
-        server_version_info = (0, )
+        pass
 
     def _set_dbapi_autocommit(self, autocommit):
         self.connection.connection.autocommit(autocommit)

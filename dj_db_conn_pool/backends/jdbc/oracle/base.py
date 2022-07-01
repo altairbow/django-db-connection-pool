@@ -7,7 +7,7 @@ import jpype
 import jaydebeapi
 from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect
-from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapper
+from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapperMixin
 
 
 import logging
@@ -21,7 +21,7 @@ oracle_session_info = {
 }
 
 
-class DatabaseWrapper(JDBCDatabaseWrapper, base.DatabaseWrapper):
+class DatabaseWrapper(JDBCDatabaseWrapperMixin, base.DatabaseWrapper):
     class SQLAlchemyDialect(OracleDialect):
         def do_ping(self, dbapi_connection):
             try:
