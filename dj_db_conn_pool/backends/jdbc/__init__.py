@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import types
-import sqlparams
 import jaydebeapi
 from dj_db_conn_pool.core.mixins import PooledDatabaseWrapperMixin
+from dj_db_conn_pool.backends.jdbc.utils import CursorWrapper
 
 import logging
 logger = logging.getLogger(__name__)
-
-sql_params_converter = sqlparams.SQLParams('named', 'qmark')
 
 
 class JDBCDatabaseWrapperMixin(PooledDatabaseWrapperMixin):
@@ -50,36 +47,7 @@ class JDBCDatabaseWrapperMixin(PooledDatabaseWrapperMixin):
         # get cursor from django
         cursor = super().create_cursor(name)
 
-        def _execute(_self, query, parameters=None):
-            """
-            :param _self: django's cursor
-            :param query: SQL
-            :param parameters: SQL parameters
-            :return:
-            """
-            if isinstance(parameters, dict):
-                # convert sql and parameters
-                _query, _parameters = sql_params_converter.format(query, parameters)
-
-                logger.debug(
-                    'SQL (%s), parameters(%s) has been converted to SQL(%s), parameters(%s)',
-                    query, parameters, _query, _parameters)
-
-                query, parameters = (_query, _parameters)
-            else:
-                # change paramstyle 'format' to 'qmark'
-                query = query.replace('%s', '?')
-
-            # record last query
-            cursor.statement = query
-
-            # call jaydebeapi
-            _self.cursor.execute(query, parameters)
-
-        # replace django cursor's execute method
-        cursor.execute = types.MethodType(_execute, cursor)
-
-        return cursor
+        return CursorWrapper(cursor)
 
     def _close(self):
         if self.connection is not None and self.connection.connection.jconn.getAutoCommit():
