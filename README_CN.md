@@ -30,7 +30,16 @@ $ pip install django-db-connection-pool[oracle]
 ```python
 DATABASES = {
     'default': {
-        'ENGINE': 'dj_db_conn_pool.backends.mysql'
+        'ENGINE': 'dj_db_conn_pool.backends.mysql',
+        "NAME": "db1",
+        "USER": "user",
+        "PASSWORD": "password",
+        "HOST": "127.0.0.1",
+        "PORT": "3306",
+        "POOL_OPTIONS": {
+          "POOL_SIZE": 10,
+          "MAX_OVERFLOW": 10
+        }
     }
 }
 ```
@@ -40,7 +49,16 @@ DATABASES = {
 ```python
 DATABASES = {
     'default': {
-        'ENGINE': 'dj_db_conn_pool.backends.oracle'
+        'ENGINE': 'dj_db_conn_pool.backends.oracle',
+        "NAME": "db1",
+        "USER": "user",
+        "PASSWORD": "password",
+        "HOST": "127.0.0.1",
+        "PORT": "1521",
+        "POOL_OPTIONS": {
+          "POOL_SIZE": 10,
+          "MAX_OVERFLOW": 10
+        }
     }
 }
 ```
@@ -50,7 +68,16 @@ DATABASES = {
 ```python
 DATABASES = {
     'default': {
-        'ENGINE': 'dj_db_conn_pool.backends.postgresql'
+        'ENGINE': 'dj_db_conn_pool.backends.postgresql',
+        "NAME": "db1",
+        "USER": "user",
+        "PASSWORD": "password",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
+        "POOL_OPTIONS": {
+          "POOL_SIZE": 10,
+          "MAX_OVERFLOW": 10
+        }
     }
 }
 ```
@@ -69,13 +96,14 @@ DATABASES = {
         'POOL_OPTIONS' : {
             'POOL_SIZE': 10,
             'MAX_OVERFLOW': 10,
-            'RECYCLE': 24 * 60 * 60
+            'RECYCLE': 24 * 60 * 60,
+            'PRE_PING': True,
+            'ECHO': False,
+            'TIMEOUT': 30,
         }
      }
  }
 ```
-
-查看更多参数: [PoolContainer.pool_default_params](https://github.com/altairbow/django-db-connection-pool/blob/master/dj_db_conn_pool/core/__init__.py#L13-L20)
 
 附这些参数的解释：(摘录于 SQLAlchemy 的文档):
 
@@ -111,8 +139,13 @@ DATABASES = {
 
 ```python
 import dj_db_conn_pool
-dj_db_conn_pool.setup(pool_size=100, max_overflow=50)
+dj_db_conn_pool.setup(pool_size=10, max_overflow=20)
 ```
+
+#### 多进程环境
+在多进程环境内，每个进程都会拥有一个`dj_db_conn_pool.core:pool_container`对象， 意味着每个进程都拥有一个独立的连接池，举例说明：  
+数据库`db1`的`POOL_OPTIONS`的配置是
+`{ 'POOL_SIZE': 10, 'MAX_OVERFLOW': 20 }`，项目启动了8个进程，则该项目的`db1`连接池总大小是`8 * 10`，最大连接数是`8 * 10 + 8 * 20`
 
 ## JDBC（仍在完善中，不建议用于生产）
 基于 [JPype](https://github.com/jpype-project/jpype) [JayDeBeApi](https://github.com/baztian/jaydebeapi/) ，django-db-connection-pool 现在可以通过 jdbc 连接到数据库并保持连接
@@ -140,7 +173,16 @@ jpype.startJVM(jvm_path)
 ```python
 DATABASES = {
     'default': {
-        'ENGINE': 'dj_db_conn_pool.backends.jdbc.oracle'
+        'ENGINE': 'dj_db_conn_pool.backends.jdbc.oracle',
+        "NAME": "db1",
+        "USER": "user",
+        "PASSWORD": "password",
+        "HOST": "127.0.0.1",
+        "PORT": "1521",
+        "POOL_OPTIONS": {
+          "POOL_SIZE": 10,
+          "MAX_OVERFLOW": 10
+        }
     }
 }
 ```
@@ -150,7 +192,16 @@ DATABASES = {
 ```python
 DATABASES = {
     'default': {
-        'ENGINE': 'dj_db_conn_pool.backends.jdbc.oceanbase'
+        'ENGINE': 'dj_db_conn_pool.backends.jdbc.oceanbase',
+        "NAME": "db1",
+        "USER": "user",
+        "PASSWORD": "password",
+        "HOST": "127.0.0.1",
+        "PORT": "2881",
+        "POOL_OPTIONS": {
+          "POOL_SIZE": 10,
+          "MAX_OVERFLOW": 10
+        }
     }
 }
 ```
