@@ -32,6 +32,9 @@ class PooledDatabaseWrapperMixin(object):
                                  self.vendor, self.alias, autocommit, exc)
                 raise exc from None
 
+    def _get_dialect(self):
+        return self.SQLAlchemyDialect(dbapi=self.Database)
+
     def _get_new_connection(self, conn_params):
         return super(PooledDatabaseWrapperMixin, self).get_new_connection(conn_params)
 
@@ -80,7 +83,7 @@ class PooledDatabaseWrapperMixin(object):
                 alias_pool = pool.QueuePool(
                     lambda: self._get_new_connection(conn_params),
                     # SQLAlchemy use the dialect to maintain the pool
-                    dialect=self.SQLAlchemyDialect(dbapi=self.Database),
+                    dialect=self._get_dialect(),
                     # parameters of self.alias
                     **pool_params
                 )
