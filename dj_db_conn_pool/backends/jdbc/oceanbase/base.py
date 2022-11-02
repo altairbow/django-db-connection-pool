@@ -33,7 +33,7 @@ class DatabaseWrapper(JDBCDatabaseWrapperMixin, base.DatabaseWrapper):
         class Dialect(dialect_class):
             def do_ping(self, dbapi_connection):
                 try:
-                    return super(OracleDialect, self).do_ping(dbapi_connection)
+                    return super(dialect_class, self).do_ping(dbapi_connection)
                 except (jaydebeapi.DatabaseError, jpype.JException):
                     return False
 
