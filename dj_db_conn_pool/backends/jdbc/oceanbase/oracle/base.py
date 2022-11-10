@@ -8,7 +8,7 @@ from dj_db_conn_pool.backends.jdbc.oceanbase.mixins import JDBCOceanBaseDatabase
 
 
 class DatabaseWrapper(JDBCOceanBaseDatabaseWrapperMixin, base.DatabaseWrapper):
-    class Dialect(OracleDialect):
+    class SQLAlchemyDialect(OracleDialect):
         def do_ping(self, dbapi_connection):
             try:
                 return super(OracleDialect, self).do_ping(dbapi_connection)
