@@ -14,7 +14,3 @@ class DatabaseWrapper(JDBCOceanBaseDatabaseWrapperMixin, base.DatabaseWrapper):
                 return super(MySQLDialect, self).do_ping(dbapi_connection)
             except (jaydebeapi.DatabaseError, jpype.JException):
                 return False
-
-    def init_connection_state(self):
-        # TODO: custom OceanBase (MySQL mode) connection initialization
-        pass
