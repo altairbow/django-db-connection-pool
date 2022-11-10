@@ -31,9 +31,7 @@ class DatabaseWrapper(JDBCDatabaseWrapperMixin, base.DatabaseWrapper):
 
     jdbc_driver = 'oracle.jdbc.OracleDriver'
 
-    @property
-    def jdbc_url(self):
-        return 'jdbc:oracle:thin:@//{NAME}'.format(**self.settings_dict)
+    jdbc_url_prefix = 'jdbc:oracle:thin:@'
 
     @property
     def jdbc_options(self):

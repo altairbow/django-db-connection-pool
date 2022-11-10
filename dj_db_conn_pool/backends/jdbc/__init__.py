@@ -17,8 +17,15 @@ class JDBCDatabaseWrapperMixin(PooledDatabaseWrapperMixin):
         raise NotImplementedError()
 
     @property
-    def jdbc_url(self):
+    def jdbc_url_prefix(self):
         raise NotImplementedError()
+
+    @property
+    def jdbc_url(self):
+        return '{prefix}//{HOST}:{PORT}/{NAME}'.format(
+            prefix=self.jdbc_url_prefix,
+            **self.settings_dict
+        )
 
     @property
     def jdbc_options(self):
