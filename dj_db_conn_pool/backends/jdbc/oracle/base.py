@@ -33,9 +33,8 @@ class DatabaseWrapper(JDBCDatabaseWrapperMixin, base.DatabaseWrapper):
 
     jdbc_url_prefix = 'jdbc:oracle:thin:@'
 
-    @property
-    def jdbc_options(self):
+    def get_connection_params(self):
         return {
             **oracle_session_info,
-            **super(DatabaseWrapper, self).jdbc_options
+            **super(DatabaseWrapper, self).get_connection_params()
         }

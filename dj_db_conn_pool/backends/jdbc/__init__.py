@@ -27,9 +27,8 @@ class JDBCDatabaseWrapperMixin(PooledDatabaseWrapperMixin):
             **self.settings_dict
         )
 
-    @property
-    def jdbc_options(self):
-        return self.settings_dict.get('JDBC_OPTIONS', {})
+    def get_connection_params(self):
+        return self.settings_dict.get('OPTIONS', {})
 
     def _get_new_connection(self, conn_params):
         conn = jaydebeapi.connect(
@@ -38,7 +37,7 @@ class JDBCDatabaseWrapperMixin(PooledDatabaseWrapperMixin):
             {
                 'user': self.settings_dict['USER'],
                 'password': self.settings_dict['PASSWORD'],
-                **self.jdbc_options
+                **conn_params
             }
         )
 
