@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class PooledDatabaseWrapperMixin(object):
     def __str__(self):
         try:
-            conn = repr(self.connection.connection)
+            conn = repr(self.connection.driver_connection)
         except AttributeError:
             conn = '<Not connected>'
 
@@ -21,7 +21,7 @@ class PooledDatabaseWrapperMixin(object):
     __repr__ = __str__
 
     def _set_dbapi_autocommit(self, autocommit):
-        self.connection.connection.autocommit = autocommit
+        self.connection.driver_connection.autocommit = autocommit
 
     def _set_autocommit(self, autocommit):
         with self.wrap_database_errors:
@@ -101,13 +101,13 @@ class PooledDatabaseWrapperMixin(object):
 
         logger.debug(
             _("got %s's connection %s from its pool"),
-            self.alias, conn.connection)
+            self.alias, conn.driver_connection)
 
         return conn
 
     def close(self, *args, **kwargs):
         logger.debug(
             _("release %s's connection %s to its pool"),
-            self.alias, getattr(self.connection, 'connection', None))
+            self.alias, getattr(self.connection, 'driver_connection', None))
 
         return super(PooledDatabaseWrapperMixin, self).close(*args, **kwargs)

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class JDBCDatabaseWrapperMixin(PooledDatabaseWrapperMixin):
     def _set_dbapi_autocommit(self, autocommit):
-        self.connection.connection.jconn.setAutoCommit(autocommit)
+        self.connection.driver_connection.jconn.setAutoCommit(autocommit)
 
     @property
     def jdbc_driver(self):
@@ -56,7 +56,7 @@ class JDBCDatabaseWrapperMixin(PooledDatabaseWrapperMixin):
         return CursorWrapper(cursor)
 
     def _close(self):
-        if self.connection is not None and self.connection.connection.jconn.getAutoCommit():
+        if self.connection is not None and self.connection.driver_connection.jconn.getAutoCommit():
             # if jdbc connection's autoCommit is on
             # jaydebeapi will throw an exception after rollback called
             # we make a little dynamic patch here, make sure
@@ -65,6 +65,6 @@ class JDBCDatabaseWrapperMixin(PooledDatabaseWrapperMixin):
 
             logger.debug(
                 "autoCommit of current JDBC connection to %s %s is on, won't do rollback before returning",
-                self.alias, self.connection.connection)
+                self.alias, self.connection.driver_connection)
 
         return super(JDBCDatabaseWrapperMixin, self)._close()

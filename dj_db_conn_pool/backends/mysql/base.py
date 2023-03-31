@@ -13,4 +13,4 @@ class DatabaseWrapper(PooledDatabaseWrapperMixin, base.DatabaseWrapper):
         pass
 
     def _set_dbapi_autocommit(self, autocommit):
-        self.connection.connection.autocommit(autocommit)
+        self.connection.driver_connection.autocommit(autocommit)
