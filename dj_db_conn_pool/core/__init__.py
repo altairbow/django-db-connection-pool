@@ -31,6 +31,11 @@ class PoolContainer(dict):
         except KeyError:
             raise PoolDoesNotExist(_('No such pool: {pool_name}').format(pool_name=pool_name))
 
+    def dispose(self):
+        # dispose all pools
+        for name, pool in self.items():
+            pool.dispose()
+
 
 # the pool's container, for maintaining the pools
 # every process has it's own pool container
