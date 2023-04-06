@@ -9,7 +9,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class PooledDatabaseWrapperMixin(object):
+class PersistentDatabaseWrapperMixin(object):
     def __str__(self):
         try:
             conn = repr(self.connection.driver_connection)
@@ -36,7 +36,7 @@ class PooledDatabaseWrapperMixin(object):
         return self.SQLAlchemyDialect(dbapi=self.Database)
 
     def _get_new_connection(self, conn_params):
-        return super(PooledDatabaseWrapperMixin, self).get_new_connection(conn_params)
+        return super(PersistentDatabaseWrapperMixin, self).get_new_connection(conn_params)
 
     def get_new_connection(self, conn_params):
         """
@@ -110,4 +110,4 @@ class PooledDatabaseWrapperMixin(object):
             _("release %s's connection %s to its pool"),
             self.alias, getattr(self.connection, 'driver_connection', None))
 
-        return super(PooledDatabaseWrapperMixin, self).close(*args, **kwargs)
+        return super(PersistentDatabaseWrapperMixin, self).close(*args, **kwargs)

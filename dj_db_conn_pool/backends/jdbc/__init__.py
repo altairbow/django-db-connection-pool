@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import jaydebeapi
-from dj_db_conn_pool.core.mixins import PooledDatabaseWrapperMixin
+from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
 from dj_db_conn_pool.backends.jdbc.utils import CursorWrapper
 
 import logging
 logger = logging.getLogger(__name__)
 
 
-class JDBCDatabaseWrapperMixin(PooledDatabaseWrapperMixin):
+class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
     def _set_dbapi_autocommit(self, autocommit):
         self.connection.driver_connection.jconn.setAutoCommit(autocommit)
 

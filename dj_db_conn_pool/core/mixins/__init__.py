@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from .core import PooledDatabaseWrapperMixin
+from .core import PersistentDatabaseWrapperMixin
