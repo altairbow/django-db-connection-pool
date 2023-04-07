@@ -3,6 +3,7 @@
 from sqlalchemy import pool
 from dj_db_conn_pool.compat import gettext_lazy as _
 from dj_db_conn_pool.core import pool_container
+from dj_db_conn_pool.core.mixins.creation import DatabaseCreationMixin
 
 
 import logging
@@ -10,6 +11,12 @@ logger = logging.getLogger(__name__)
 
 
 class PersistentDatabaseWrapperMixin(object):
+    def __init__(self, *args, **kwargs):
+        # override creation_class
+        self.creation_class = type('', (DatabaseCreationMixin, self.creation_class), {})
+
+        super(PersistentDatabaseWrapperMixin, self).__init__(*args, **kwargs)
+
     def __str__(self):
         try:
             conn = repr(self.connection.driver_connection)
