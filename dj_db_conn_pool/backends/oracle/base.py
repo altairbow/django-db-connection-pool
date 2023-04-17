@@ -8,3 +8,6 @@ from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
 class DatabaseWrapper(PersistentDatabaseWrapperMixin, base.DatabaseWrapper):
     class SQLAlchemyDialect(OracleDialect):
         pass
+
+    def _set_dbapi_autocommit(self, autocommit):
+        self.connection.driver_connection.autocommit = int(autocommit)
