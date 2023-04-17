@@ -35,7 +35,6 @@ class CursorWrapper:
         # record last query
         self.statement = query
 
-        # call jaydebeapi
         self._cursor.cursor.execute(query, parameters)
 
     def __getattr__(self, item):

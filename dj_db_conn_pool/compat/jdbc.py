@@ -1,4 +1,4 @@
-import jaydebeapi
+import jpype
 from datetime import datetime
 
 
@@ -8,35 +8,30 @@ def patch_all():
 
 def patch_converters():
     """
-    patch jaydebeapi's converters
+    patch jpype's jdbc converters
     """
-    def to_number(rs, col):
-        java_obj = rs.getBigDecimal(col)
+    def to_str(value):
+        return str(value.toString())
 
-        py_str = rs.getString(col)
+    def to_number(value):
+        string = str(value.toString())
 
-        if java_obj.scale() > 0:
-            return float(py_str)
+        if value.scale() > 0:
+            return float(string)
 
-        return int(py_str)
+        return int(string)
 
-    def to_str(rs, col):
-        return rs.getString(col)
+    def to_datetime(value):
+        timestamp = int(str(value.getTime())) // 1000
 
-    def to_datetime(rs, col):
-        java_obj = rs.getTimestamp(col).getTime()
+        return datetime.fromtimestamp(timestamp)
 
-        time_stamp = int(str(java_obj)) // 1000
+    @jpype.onJVMStart
+    def register_converters():
+        from dj_db_conn_pool.backends.jdbc import JDBC_TYPE_CONVERTERS
 
-        dt = datetime.fromtimestamp(time_stamp)
+        JDBC_TYPE_CONVERTERS[jpype.java.lang.String] = to_str
 
-        return dt
+        JDBC_TYPE_CONVERTERS[jpype.java.math.BigDecimal] = to_number
 
-    jaydebeapi._DEFAULT_CONVERTERS.update(
-        {
-            'CHAR': to_str,
-            'VARCHAR': to_str,
-            'NUMERIC': to_number,
-            'TIMESTAMP': to_datetime,
-         }
-    )
+        JDBC_TYPE_CONVERTERS[jpype.java.sql.Timestamp] = to_datetime
