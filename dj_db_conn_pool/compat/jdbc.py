@@ -1,3 +1,7 @@
+import jaydebeapi
+from datetime import datetime
+
+
 def patch_all():
     patch_converters()
 
@@ -6,27 +10,33 @@ def patch_converters():
     """
     patch jaydebeapi's converters
     """
-    from datetime import datetime
-    import jaydebeapi
+    def to_number(rs, col):
+        java_obj = rs.getBigDecimal(col)
 
-    def _to_str(rs, col):
-        return str(rs.getObject(col))
+        py_str = rs.getString(col)
 
-    def _to_datetime(rs, col):
-        java_val = rs.getTimestamp(col)
+        if java_obj.scale() > 0:
+            return float(py_str)
 
-        if not java_val:
-            return
+        return int(py_str)
 
-        dt = datetime.strptime(
-            str(java_val)[:19], '%Y-%m-%d %H:%M:%S')
+    def to_str(rs, col):
+        return rs.getString(col)
 
-        dt = dt.replace(microsecond=int(str(java_val.getNanos())[:6]))
+    def to_datetime(rs, col):
+        java_obj = rs.getTimestamp(col).getTime()
+
+        time_stamp = int(str(java_obj)) // 1000
+
+        dt = datetime.fromtimestamp(time_stamp)
+
         return dt
 
     jaydebeapi._DEFAULT_CONVERTERS.update(
         {
-            'TIMESTAMP': _to_datetime,
-            'VARCHAR': _to_str
+            'CHAR': to_str,
+            'VARCHAR': to_str,
+            'NUMERIC': to_number,
+            'TIMESTAMP': to_datetime,
          }
     )
