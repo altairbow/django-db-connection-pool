@@ -1,6 +1,8 @@
-Django>=1.8
-SQLAlchemy>=1.2.16
+Django>=2.0
+SQLAlchemy>=1.4.24
+JPype1>=1.3.0
+sqlparams>=3.0.0
 PyMySQL>=0.9.3
+pyodbc>=4.0.34
 cx-Oracle>=6.4.1
 psycopg2>=2.8.6
-JayDeBeApi>=1.2.3

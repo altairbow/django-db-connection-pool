@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 import codecs
 import shutil
 import setuptools
@@ -34,18 +36,26 @@ def setup():
         packages=setuptools.find_packages(),
         include_package_data=True,
         install_requires=[
-            'Django',
+            'Django>=2.0',
             'SQLAlchemy>=1.4.24',
         ],
         extras_require={
             'all': [
-                'PyMySQL>=0.9.3', 'cx-Oracle>=6.4.1', 'psycopg2>=2.8.6',
-                'JayDeBeApi>=1.2.3', 'sqlparams>=3.0.0'
+                'JPype1>=1.3.0',
+                'sqlparams>=3.0.0',
+                'PyMySQL>=0.9.3',
+                'pyodbc>=4.0.34',
+                'cx-Oracle>=6.4.1',
+                'psycopg2>=2.8.6',
+            ],
+            'jdbc': [
+                'JPype1>=1.3.0',
+                'sqlparams>=3.0.0',
             ],
             'mysql': ['PyMySQL>=0.9.3'],
+            'odbc': ['pyodbc>=4.0.34'],
             'oracle': ['cx-Oracle>=6.4.1'],
             'postgresql': ['psycopg2>=2.8.6'],
-            'jdbc': ['JayDeBeApi>=1.2.3', 'sqlparams>=3.0.0'],
         },
         classifiers=[
             'Development Status :: 5 - Production/Stable',
@@ -57,7 +67,7 @@ def setup():
             'Programming Language :: Python :: 3',
             'Topic :: Software Development :: Libraries :: Python Modules',
         ],
-        keywords=['django', 'db', 'database', 'persistent', 'connection', 'pool'],
+        keywords=['django', 'db', 'database', 'persistent', 'connection', 'pool', 'pooling'],
     )
 
 
