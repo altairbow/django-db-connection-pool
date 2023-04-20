@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import threading
 import jpype
 import jpype.dbapi2
 from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
@@ -8,7 +9,7 @@ from dj_db_conn_pool.backends.jdbc.utils import CursorWrapper
 import logging
 logger = logging.getLogger(__name__)
 
-JDBC_TYPE_CONVERTERS = {}
+LOCK_CHECK_JVM_STATUS = threading.Lock()
 
 
 class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
@@ -31,8 +32,9 @@ class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
         return self.settings_dict.get('OPTIONS', {})
 
     def _get_new_connection(self, conn_params):
-        if not jpype.isJVMStarted():
-            jpype.startJVM(ignoreUnrecognized=True)
+        with LOCK_CHECK_JVM_STATUS:
+            if not jpype.isJVMStarted():
+                jpype.startJVM(ignoreUnrecognized=True)
 
         conn = jpype.dbapi2.connect(
             self.jdbc_url,
@@ -42,7 +44,6 @@ class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
                 password=self.settings_dict['PASSWORD'],
                 **conn_params
             ),
-            converters=JDBC_TYPE_CONVERTERS,
         )
 
         return conn
