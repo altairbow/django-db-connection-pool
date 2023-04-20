@@ -111,8 +111,16 @@ import dj_db_conn_pool
 dj_db_conn_pool.setup(pool_size=100, max_overflow=50)
 ```
 
+#### multiprocessing environment
+In a multiprocessing environment, such as uWSGI, each process will have its own `dj_db_conn_pool.core:pool_container` object,
+It means that each process has an independent connection pool, for example: 
+The `POOL_OPTIONS` configuration of database `db1` is`{ 'POOL_SIZE': 10, 'MAX_OVERFLOW': 20 }`,
+If uWSGI starts 8 worker processes, then the total connection pool size of `db1`  is `8 * 10`,
+The maximum number of connections will not exceed `8 * 10 + 8 * 20`
+
+
 ## JDBC (experimental, NOT PRODUCTION READY)
-Thanks to [JPype](https://github.com/jpype-project/jpype) [JayDeBeApi](https://github.com/baztian/jaydebeapi/) ,
+Thanks to [JPype](https://github.com/jpype-project/jpype),
 django-db-connection-pool can connect to database in jdbc way
 
 ### Usage
@@ -120,15 +128,6 @@ django-db-connection-pool can connect to database in jdbc way
 ```bash
 export JAVA_HOME=$PATH_TO_JRE;
 export CLASSPATH=$PATH_RO_JDBC_DRIVER_JAR
-```
-
-#### Start JVM
-Start JVM before initialization of Django
-
-```python
-import jpype
-jvm_path = jpype.getDefaultJVMPath()
-jpype.startJVM(jvm_path)
 ```
 
 #### Update settings.DATABASES

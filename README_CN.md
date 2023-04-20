@@ -148,22 +148,13 @@ dj_db_conn_pool.setup(pool_size=10, max_overflow=20)
 `{ 'POOL_SIZE': 10, 'MAX_OVERFLOW': 20 }`，项目启动了8个进程，则该项目的`db1`连接池总大小是`8 * 10`，最大连接数是`8 * 10 + 8 * 20`
 
 ## JDBC（仍在完善中，不建议用于生产）
-基于 [JPype](https://github.com/jpype-project/jpype) [JayDeBeApi](https://github.com/baztian/jaydebeapi/) ，django-db-connection-pool 现在可以通过 jdbc 连接到数据库并保持连接
+基于 [JPype](https://github.com/jpype-project/jpype)，django-db-connection-pool 现在可以通过 jdbc 连接到数据库并保持连接
 
 ### 使用方法
 #### 设置环境变量
 ```bash
 export JAVA_HOME=$PATH_TO_JRE;
 export CLASSPATH=$PATH_RO_JDBC_DRIVER_JAR
-```
-
-#### 启动 JVM
-在引用 `dj_db_conn_pool.backends.jdbc.xxx` 前，调用 jpype 启动 JVM
-
-```python
-import jpype
-jvm_path = jpype.getDefaultJVMPath()
-jpype.startJVM(jvm_path)
 ```
 
 #### 更新 settings.DATABASES 配置
