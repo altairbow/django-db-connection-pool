@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import jaydebeapi
+import threading
+import jpype
+import jpype.dbapi2
 from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
 from dj_db_conn_pool.backends.jdbc.utils import CursorWrapper
 
 import logging
 logger = logging.getLogger(__name__)
 
+LOCK_CHECK_JVM_STATUS = threading.Lock()
+
 
 class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
-    def _set_dbapi_autocommit(self, autocommit):
-        self.connection.driver_connection.jconn.setAutoCommit(autocommit)
-
     @property
     def jdbc_driver(self):
         raise NotImplementedError()
@@ -31,14 +32,18 @@ class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
         return self.settings_dict.get('OPTIONS', {})
 
     def _get_new_connection(self, conn_params):
-        conn = jaydebeapi.connect(
-            self.jdbc_driver,
+        with LOCK_CHECK_JVM_STATUS:
+            if not jpype.isJVMStarted():
+                jpype.startJVM(ignoreUnrecognized=True)
+
+        conn = jpype.dbapi2.connect(
             self.jdbc_url,
-            {
-                'user': self.settings_dict['USER'],
-                'password': self.settings_dict['PASSWORD'],
+            driver=self.jdbc_driver,
+            driver_args=dict(
+                user=self.settings_dict['USER'],
+                password=self.settings_dict['PASSWORD'],
                 **conn_params
-            }
+            ),
         )
 
         return conn
@@ -56,9 +61,9 @@ class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
         return CursorWrapper(cursor)
 
     def _close(self):
-        if self.connection is not None and self.connection.driver_connection.jconn.getAutoCommit():
+        if self.connection is not None and self.connection.driver_connection.autocommit:
             # if jdbc connection's autoCommit is on
-            # jaydebeapi will throw an exception after rollback called
+            # jpype will throw NotSupportedError after rollback called
             # we make a little dynamic patch here, make sure
             # SQLAlchemy will not do rollback before recycling connection
             self.connection._pool._reset_on_return = None

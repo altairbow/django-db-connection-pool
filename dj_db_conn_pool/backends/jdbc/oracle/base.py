@@ -3,8 +3,7 @@
 import getpass
 import socket
 from multiprocessing import current_process
-import jpype
-import jaydebeapi
+import jpype.dbapi2
 from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect
 from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapperMixin
@@ -26,7 +25,7 @@ class DatabaseWrapper(JDBCDatabaseWrapperMixin, base.DatabaseWrapper):
         def do_ping(self, dbapi_connection):
             try:
                 return super(OracleDialect, self).do_ping(dbapi_connection)
-            except (jaydebeapi.DatabaseError, jpype.JException):
+            except jpype.dbapi2.DatabaseError:
                 return False
 
     jdbc_driver = 'oracle.jdbc.OracleDriver'
