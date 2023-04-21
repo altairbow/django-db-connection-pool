@@ -4,15 +4,20 @@ import threading
 import jpype
 import jpype.dbapi2
 from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
-from dj_db_conn_pool.backends.jdbc.utils import CursorWrapper
 
 import logging
 logger = logging.getLogger(__name__)
 
-LOCK_CHECK_JVM_STATUS = threading.Lock()
+jdbc_type_converters = {}
+
+lock_check_jvm_status = threading.Lock()
 
 
 class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
+    _sql_param_style = 'qmark'
+
+    _sql_converter = staticmethod(lambda sql: sql.replace('%s', '?'))
+
     @property
     def jdbc_driver(self):
         raise NotImplementedError()
@@ -32,7 +37,7 @@ class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
         return self.settings_dict.get('OPTIONS', {})
 
     def _get_new_connection(self, conn_params):
-        with LOCK_CHECK_JVM_STATUS:
+        with lock_check_jvm_status:
             if not jpype.isJVMStarted():
                 jpype.startJVM(ignoreUnrecognized=True)
 
@@ -44,21 +49,10 @@ class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
                 password=self.settings_dict['PASSWORD'],
                 **conn_params
             ),
+            converters=jdbc_type_converters,
         )
 
         return conn
-
-    def create_cursor(self, name=None):
-        """
-        create a cursor
-        do some tricks here
-        :param name:
-        :return:
-        """
-        # get cursor from django
-        cursor = super().create_cursor(name)
-
-        return CursorWrapper(cursor)
 
     def _close(self):
         if self.connection is not None and self.connection.driver_connection.autocommit:

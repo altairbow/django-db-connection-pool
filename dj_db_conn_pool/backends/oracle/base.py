@@ -6,6 +6,8 @@ from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
 
 
 class DatabaseWrapper(PersistentDatabaseWrapperMixin, base.DatabaseWrapper):
+    _sql_param_style = 'numeric'
+
     class SQLAlchemyDialect(OracleDialect):
         pass
 

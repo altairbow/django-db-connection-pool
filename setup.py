@@ -38,6 +38,7 @@ def setup():
         install_requires=[
             'Django>=2.0',
             'SQLAlchemy>=1.4.24',
+            'sqlparams>=4.0.0',
         ],
         extras_require={
             'all': [
@@ -48,10 +49,7 @@ def setup():
                 'cx-Oracle>=6.4.1',
                 'psycopg2>=2.8.6',
             ],
-            'jdbc': [
-                'JPype1>=1.3.0',
-                'sqlparams>=3.0.0',
-            ],
+            'jdbc': ['JPype1>=1.3.0'],
             'mysql': ['PyMySQL>=0.9.3'],
             'odbc': ['pyodbc>=4.0.34'],
             'oracle': ['cx-Oracle>=6.4.1'],
