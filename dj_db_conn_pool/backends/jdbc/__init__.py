@@ -4,6 +4,7 @@ import threading
 import jpype
 import jpype.dbapi2
 from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
+from dj_db_conn_pool.backends.jdbc.utils import CursorWrapper
 
 import logging
 logger = logging.getLogger(__name__)
@@ -14,10 +15,6 @@ lock_check_jvm_status = threading.Lock()
 
 
 class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
-    _sql_param_style = 'qmark'
-
-    _sql_converter = staticmethod(lambda sql: sql.replace('%s', '?'))
-
     @property
     def jdbc_driver(self):
         raise NotImplementedError()
@@ -32,6 +29,10 @@ class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
             prefix=self.jdbc_url_prefix,
             **self.settings_dict
         )
+
+    def create_cursor(self, name=None):
+        cursor = self.connection.cursor()
+        return CursorWrapper(cursor)
 
     def get_connection_params(self):
         return self.settings_dict.get('OPTIONS', {})

@@ -3,7 +3,6 @@
 from sqlalchemy import pool
 from dj_db_conn_pool.compat import gettext_lazy as _
 from dj_db_conn_pool.core import pool_container
-from dj_db_conn_pool.core.utils import CursorWrapper
 from dj_db_conn_pool.core.mixins.creation import DatabaseCreationMixin
 
 
@@ -42,16 +41,6 @@ class PersistentDatabaseWrapperMixin(object):
 
     def _get_dialect(self):
         return self.SQLAlchemyDialect(dbapi=self.Database)
-
-    _sql_param_style = 'format'
-
-    _sql_converter = staticmethod(lambda sql: sql)
-
-    def create_cursor(self, name=None):
-        # get cursor from django
-        cursor = super().create_cursor(name)
-
-        return CursorWrapper(cursor, self._sql_param_style, self._sql_converter)
 
     def _get_new_connection(self, conn_params):
         return super(PersistentDatabaseWrapperMixin, self).get_new_connection(conn_params)
