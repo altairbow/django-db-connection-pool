@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapperMixin
 

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 import jpype.dbapi2
 from django.db.backends.oracle import base

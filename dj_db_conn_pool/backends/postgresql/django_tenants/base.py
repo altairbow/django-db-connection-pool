@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from django_tenants.postgresql_backend import base
 from dj_db_conn_pool.backends.postgresql.mixins import PGDatabaseWrapperMixin

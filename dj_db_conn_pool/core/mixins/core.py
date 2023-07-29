@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from sqlalchemy import pool
 from dj_db_conn_pool.compat import gettext_lazy as _

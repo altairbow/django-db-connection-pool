@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from django.contrib.gis.db.backends.postgis import base
 from sqlalchemy.dialects.postgresql.base import PGDialect
