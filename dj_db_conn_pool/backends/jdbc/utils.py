@@ -1,4 +1,5 @@
 import logging
+
 import sqlparams
 
 logger = logging.getLogger(__name__)

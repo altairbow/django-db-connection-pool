@@ -3,6 +3,7 @@
 import jpype.dbapi2
 from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect
+
 from dj_db_conn_pool.backends.jdbc.oceanbase.mixins import JDBCOceanBaseDatabaseWrapperMixin
 
 

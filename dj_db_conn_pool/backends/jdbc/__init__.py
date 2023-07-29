@@ -1,12 +1,14 @@
 # coding: utf-8
 
+import logging
 import threading
+
 import jpype
 import jpype.dbapi2
-from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
-from dj_db_conn_pool.backends.jdbc.utils import CursorWrapper
 
-import logging
+from dj_db_conn_pool.backends.jdbc.utils import CursorWrapper
+from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
+
 logger = logging.getLogger(__name__)
 
 jdbc_type_converters = {}

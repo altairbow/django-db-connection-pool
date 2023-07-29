@@ -1,15 +1,16 @@
 # coding: utf-8
 
 import getpass
+import logging
 import socket
 from multiprocessing import current_process
+
 import jpype.dbapi2
 from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect
+
 from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapperMixin
 
-
-import logging
 logger = logging.getLogger(__name__)
 
 oracle_session_info = {
