@@ -13,15 +13,15 @@ class CursorWrapper:
 
         self.statement = None
 
-    def execute(self, query, parameters=None):
-        if isinstance(parameters, dict):
-            query, parameters = self._sql_params_converter.format(query, parameters)
+    def execute(self, query, params=None):
+        if isinstance(params, dict):
+            query, params = self._sql_params_converter.format(query, params)
         else:
             query = query.replace('%s', '?')
 
         self.statement = query
 
-        return self.cursor.execute(query, parameters)
+        return self.cursor.execute(query, params)
 
     def __getattr__(self, attr):
         return getattr(self.cursor, attr)
