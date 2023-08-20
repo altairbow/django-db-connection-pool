@@ -1,10 +1,10 @@
 # django-db-connection-pool
 
-*:star: Leave a star if django-db-connection-pool is helpful to you, or you like it, Thank you:smile:*
+*:star: If this project is helpful to you, please light up the star, Thank you:smile:*
 
-MySQL & Oracle & PostgreSQL & JDBC (Oracle, OceanBase) connection pool backends of Django, 
+MySQL & Oracle & PostgreSQL & JDBC (Oracle, OceanBase) connection pool components for Django, 
 Be based on [SQLAlchemy](https://github.com/sqlalchemy/sqlalchemy). 
-Work fine in multiprocessing and multithreading django project.
+Works fine in multiprocessing and multithreading django project.
 
 * [中文版](README_CN.md)
 
@@ -74,7 +74,7 @@ DATABASES = {
 
 `django-db-connection-pool` has more configuration options here: [PoolContainer.pool_default_params](https://github.com/altairbow/django-db-connection-pool/blob/master/dj_db_conn_pool/core/__init__.py#L13-L20)
      
-Here's an explanation of these options(from SQLAlchemy's Doc):
+Here's the explanation of these options(from SQLAlchemy's Doc):
 
 * **pool_size**: The size of the pool to be maintained,
           defaults to 5. This is the largest number of connections that
@@ -119,9 +119,9 @@ If uWSGI starts 8 worker processes, then the total connection pool size of `db1`
 The maximum number of connections will not exceed `8 * 10 + 8 * 20`
 
 
-## JDBC (experimental, NOT PRODUCTION READY)
+## JDBC
 Thanks to [JPype](https://github.com/jpype-project/jpype),
-django-db-connection-pool can connect to database in jdbc way
+django-db-connection-pool can connect to database by jdbc
 
 ### Usage
 #### Set Java runtime environment
@@ -150,4 +150,15 @@ DATABASES = {
         'ENGINE': 'dj_db_conn_pool.backends.jdbc.oceanbase'
     }
 }
+```
+
+### Performing raw SQL queries
+Just like django's built-in backends, all JDBC backends support named parameters in raw SQL queries, 
+you can execute raw sql queries like this:
+```python
+from django.db import connections
+
+with connections["default"].cursor() as cursor:
+    cursor.execute('select name, phone from users where name = %(name)s', params={"name": "Altair"})
+    result = cursor.fetchall()
 ```
