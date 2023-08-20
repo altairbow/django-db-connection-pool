@@ -1,15 +1,17 @@
 # coding: utf-8
 
+import logging
+
 from django.db.backends.mysql import base
-from sqlalchemy.dialects.mysql.pymysql import MySQLDialect_pymysql
+from sqlalchemy.dialects.mysql.base import MySQLDialect
+
 from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
 
-import logging
 logger = logging.getLogger(__name__)
 
 
 class DatabaseWrapper(PersistentDatabaseWrapperMixin, base.DatabaseWrapper):
-    class SQLAlchemyDialect(MySQLDialect_pymysql):
+    class SQLAlchemyDialect(MySQLDialect):
         pass
 
     def _set_dbapi_autocommit(self, autocommit):

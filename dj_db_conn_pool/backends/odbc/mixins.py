@@ -2,6 +2,7 @@
 
 import pyodbc
 from django.conf import ImproperlyConfigured
+
 from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
 
 
