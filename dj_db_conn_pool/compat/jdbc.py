@@ -9,6 +9,7 @@ def patch_converters():
     """
     patch jpype's jdbc converters
     """
+
     def to_python(value):
         return value._py()
 

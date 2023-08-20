@@ -1,12 +1,13 @@
 # coding: utf-8
 
+import logging
+
 from sqlalchemy import pool
+
 from dj_db_conn_pool.compat import gettext_lazy as _
 from dj_db_conn_pool.core import pool_container
 from dj_db_conn_pool.core.mixins.creation import DatabaseCreationMixin
 
-
-import logging
 logger = logging.getLogger(__name__)
 
 
@@ -34,7 +35,7 @@ class PersistentDatabaseWrapperMixin(object):
         with self.wrap_database_errors:
             try:
                 self._set_dbapi_autocommit(autocommit)
-            except (Exception, ) as exc:
+            except (Exception,) as exc:
                 logger.exception('unable to set autocommit mode of %s(%s) to %s, caused by: %s',
                                  self.vendor, self.alias, autocommit, exc)
                 raise exc from None
