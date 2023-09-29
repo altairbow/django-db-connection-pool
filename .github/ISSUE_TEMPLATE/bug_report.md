@@ -14,8 +14,9 @@ A clear and concise description of what the bug is.
 Switch to django's backend (`django.db.backends.xxx`), does the problem reproduce?
 
 **Environment**
-- Python Version: 
-- Django Version: 
+
+- Python Version:
+- Django Version:
 
 **Traceback**
 Post traceback here.
