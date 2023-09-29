@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class PersistentDatabaseWrapperMixin(object):
     def __init__(self, *args, **kwargs):
         # override creation_class
-        self.creation_class = type('', (DatabaseCreationMixin, self.creation_class), {})
+        self.creation_class = type('DatabaseCreationWrapper', (DatabaseCreationMixin, self.creation_class), {})
 
         super(PersistentDatabaseWrapperMixin, self).__init__(*args, **kwargs)
 
