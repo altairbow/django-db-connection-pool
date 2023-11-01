@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import logging
 import threading
 
@@ -69,4 +67,4 @@ class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
                 "autoCommit of current JDBC connection to %s %s is on, won't do rollback before returning",
                 self.alias, self.connection.driver_connection)
 
-        return super(JDBCDatabaseWrapperMixin, self)._close()
+        return super()._close()
