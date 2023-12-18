@@ -13,6 +13,6 @@ class PGDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
         connection = super().get_new_connection(conn_params)
 
         if not connection.info:
-            connection.info = connection.connection.info
+            connection.info = connection.driver_connection.info
 
         return connection
