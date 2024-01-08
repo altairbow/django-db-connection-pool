@@ -9,7 +9,7 @@ class DatabaseWrapper(JDBCOceanBaseDatabaseWrapperMixin, base.DatabaseWrapper):
     class SQLAlchemyDialect(OracleDialect):
         def do_ping(self, dbapi_connection):
             try:
-                return super(OracleDialect, self).do_ping(dbapi_connection)
+                return super().do_ping(dbapi_connection)
             except jpype.dbapi2.DatabaseError:
                 return False
 
