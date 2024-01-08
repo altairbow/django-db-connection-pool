@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import logging
 
 from sqlalchemy import pool
@@ -11,12 +9,12 @@ from dj_db_conn_pool.core.mixins.creation import DatabaseCreationMixin
 logger = logging.getLogger(__name__)
 
 
-class PersistentDatabaseWrapperMixin(object):
+class PersistentDatabaseWrapperMixin:
     def __init__(self, *args, **kwargs):
         # override creation_class
         self.creation_class = type('DatabaseCreationWrapper', (DatabaseCreationMixin, self.creation_class), {})
 
-        super(PersistentDatabaseWrapperMixin, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def __str__(self):
         try:
@@ -44,7 +42,7 @@ class PersistentDatabaseWrapperMixin(object):
         return self.SQLAlchemyDialect(dbapi=self.Database)
 
     def _get_new_connection(self, conn_params):
-        return super(PersistentDatabaseWrapperMixin, self).get_new_connection(conn_params)
+        return super().get_new_connection(conn_params)
 
     def get_new_connection(self, conn_params):
         """
@@ -118,4 +116,4 @@ class PersistentDatabaseWrapperMixin(object):
             _("release %s's connection %s to its pool"),
             self.alias, getattr(self.connection, 'driver_connection', None))
 
-        return super(PersistentDatabaseWrapperMixin, self).close(*args, **kwargs)
+        return super().close(*args, **kwargs)

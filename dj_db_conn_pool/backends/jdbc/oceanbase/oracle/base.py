@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import jpype.dbapi2
 from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import logging
 
 from django.db.backends.mysql import base

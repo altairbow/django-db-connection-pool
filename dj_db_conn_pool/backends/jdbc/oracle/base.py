@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import getpass
 import logging
 import socket
@@ -36,5 +34,5 @@ class DatabaseWrapper(JDBCDatabaseWrapperMixin, base.DatabaseWrapper):
     def get_connection_params(self):
         return {
             **oracle_session_info,
-            **super(DatabaseWrapper, self).get_connection_params()
+            **super().get_connection_params()
         }

@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import jpype.dbapi2
 from django.db.backends.mysql import base
 from sqlalchemy.dialects.mysql.base import MySQLDialect
