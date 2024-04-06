@@ -186,3 +186,7 @@ with connections["default"].cursor() as cursor:
     cursor.execute('select name, phone from users where name = %(name)s', params={"name": "Altair"})
     result = cursor.fetchall()
 ```
+
+### Acknowledgments
+- Thanks to all friends who provided PR and suggestions !
+- Thanks to [JetBrains](https://www.jetbrains.com/?from=django-db-connection-pool) for providing development tools for django-db-connection-pool !
