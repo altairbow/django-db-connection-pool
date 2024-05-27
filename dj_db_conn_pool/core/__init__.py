@@ -6,7 +6,7 @@ from dj_db_conn_pool.core.exceptions import PoolDoesNotExist
 
 try:
     from django.conf import settings
-    log_level = settings.LOGGING.get('loggers').get('dj_db_conn_pool').get('level')
+    log_level = logging.DEBUG if settings.DEBUG else logging.ERROR
 except ImportError:
     log_level = logging.DEBUG
 
