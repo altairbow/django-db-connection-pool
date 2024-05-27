@@ -8,7 +8,6 @@ from dj_db_conn_pool.core.mixins.creation import DatabaseCreationMixin
 
 logger = logging.getLogger(__name__)
 
-
 class PersistentDatabaseWrapperMixin:
     def __init__(self, *args, **kwargs):
         # override creation_class
@@ -83,6 +82,7 @@ class PersistentDatabaseWrapperMixin:
                     **pool_container.pool_default_params,
                     **pool_setting
                 }
+                logger.setLevel(pool_params.pop('LOG_LEVEL', logging.DEBUG))
 
                 # now we have all parameters of self.alias
                 # create self.alias's pool

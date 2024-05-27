@@ -1,7 +1,14 @@
 import threading
+import logging
 
 from dj_db_conn_pool.compat import gettext_lazy as _
 from dj_db_conn_pool.core.exceptions import PoolDoesNotExist
+
+try:
+    from django.conf import settings
+    log_level = settings.LOGGING.get('loggers').get('dj_db_conn_pool').get('level')
+except ImportError:
+    log_level = logging.DEBUG
 
 
 class PoolContainer(dict):
@@ -16,6 +23,7 @@ class PoolContainer(dict):
         'recycle': 60 * 15,
         'pool_size': 10,
         'max_overflow': 10,
+        'LOG_LEVEL': log_level,
     }
 
     def has(self, pool_name):
