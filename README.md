@@ -73,15 +73,38 @@ DATABASES = {
 you can provide additional options to pass to SQLAlchemy's pool creation, key's name is `POOL_OPTIONS`:
 
 ```python
+import logging
+
 DATABASES = {
     'default': {
         'POOL_OPTIONS': {
             'POOL_SIZE': 10,
             'MAX_OVERFLOW': 10,
-            'RECYCLE': 24 * 60 * 60
+            'RECYCLE': 24 * 60 * 60,
+            'LOG_LEVEL': logging.DEBUG
         }
     }
 }
+
+# or you can define logger under 'LOGGING' for dj_db_conn_pool settings
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'dj_db_conn_pool': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
 ```
 
 `django-db-connection-pool` has more configuration options
