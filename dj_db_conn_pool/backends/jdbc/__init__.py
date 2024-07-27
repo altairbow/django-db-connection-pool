@@ -1,8 +1,7 @@
-import logging
-import threading
-
 import jpype
 import jpype.dbapi2
+import logging
+import threading
 
 from dj_db_conn_pool.backends.jdbc.utils import CursorWrapper
 from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
