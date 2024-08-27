@@ -1,4 +1,5 @@
 import logging
+
 from django.db.backends.mysql import base
 from sqlalchemy.dialects.mysql.mysqldb import MySQLDialect_mysqldb as MySQLDialect
 
