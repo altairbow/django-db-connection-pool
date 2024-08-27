@@ -1,9 +1,11 @@
 import getpass
-import jpype.dbapi2
 import logging
+import platform
 import socket
-from django.db.backends.oracle import base
 from multiprocessing import current_process
+
+import jpype.dbapi2
+from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect
 
 from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapperMixin
@@ -14,7 +16,7 @@ oracle_session_info = {
     'v$session.process': str(current_process().pid),
     'v$session.osuser': getpass.getuser(),
     'v$session.machine': socket.gethostname(),
-    'v$session.program': 'python',
+    'v$session.program': 'python.exe' if platform.system() == 'Windows' else 'python',
 }
 
 
