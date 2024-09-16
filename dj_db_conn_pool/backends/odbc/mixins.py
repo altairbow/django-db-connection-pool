@@ -5,6 +5,8 @@ from dj_db_conn_pool.core.mixins import DatabasePoolWrapperMixin
 
 
 class ODBCDatabaseWrapperMixin(DatabasePoolWrapperMixin):
+    Database = pyodbc
+
     def _get_new_connection(self, conn_params):
         try:
             driver = self.settings_dict['ODBC_OPTIONS']['DRIVER']
