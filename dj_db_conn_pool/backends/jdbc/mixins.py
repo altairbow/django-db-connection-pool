@@ -14,7 +14,7 @@ jdbc_type_converters = {}
 lock_check_jvm_status = threading.Lock()
 
 
-class JdbcDialectMixin:
+class JDBCDialectMixin:
     def do_ping(self, dbapi_connection):
         try:
             return super().do_ping(dbapi_connection)
@@ -42,6 +42,7 @@ class JDBCDatabaseWrapperMixin(DatabasePoolWrapperMixin):
 
     def create_cursor(self, name=None):
         cursor = self.connection.cursor()
+
         return CursorWrapper(cursor)
 
     def get_connection_params(self):

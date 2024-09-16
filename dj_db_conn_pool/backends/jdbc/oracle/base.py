@@ -7,7 +7,7 @@ from multiprocessing import current_process
 from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect
 
-from dj_db_conn_pool.backends.jdbc.mixins import JdbcDialectMixin, JDBCDatabaseWrapperMixin
+from dj_db_conn_pool.backends.jdbc.mixins import JDBCDialectMixin, JDBCDatabaseWrapperMixin
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ oracle_session_info = {
 
 
 class DatabaseWrapper(JDBCDatabaseWrapperMixin, base.DatabaseWrapper):
-    class SQLAlchemyDialect(JdbcDialectMixin, OracleDialect):
+    class SQLAlchemyDialect(JDBCDialectMixin, OracleDialect):
         pass
 
     jdbc_driver = 'oracle.jdbc.OracleDriver'
