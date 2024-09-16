@@ -15,6 +15,8 @@ lock_check_jvm_status = threading.Lock()
 
 
 class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
+    Database = jpype.dbapi2
+
     @property
     def jdbc_driver(self):
         raise NotImplementedError()
