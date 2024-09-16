@@ -4,11 +4,11 @@ import platform
 import socket
 from multiprocessing import current_process
 
-import jpype.dbapi2
 from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect
 
 from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapperMixin
+from dj_db_conn_pool.backends.jdbc.mixins import JdbcDialectMixin
 
 logger = logging.getLogger(__name__)
 
@@ -21,12 +21,8 @@ oracle_session_info = {
 
 
 class DatabaseWrapper(JDBCDatabaseWrapperMixin, base.DatabaseWrapper):
-    class SQLAlchemyDialect(OracleDialect):
-        def do_ping(self, dbapi_connection):
-            try:
-                return super().do_ping(dbapi_connection)
-            except jpype.dbapi2.DatabaseError:
-                return False
+    class SQLAlchemyDialect(JdbcDialectMixin, OracleDialect):
+        pass
 
     jdbc_driver = 'oracle.jdbc.OracleDriver'
 
