@@ -7,8 +7,7 @@ from multiprocessing import current_process
 from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect
 
-from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapperMixin
-from dj_db_conn_pool.backends.jdbc.mixins import JdbcDialectMixin
+from dj_db_conn_pool.backends.jdbc.mixins import JdbcDialectMixin, JDBCDatabaseWrapperMixin
 
 logger = logging.getLogger(__name__)
 

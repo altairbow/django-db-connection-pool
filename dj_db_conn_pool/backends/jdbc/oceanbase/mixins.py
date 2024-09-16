@@ -1,4 +1,4 @@
-from dj_db_conn_pool.backends.jdbc import JDBCDatabaseWrapperMixin
+from dj_db_conn_pool.backends.jdbc.mixins import JDBCDatabaseWrapperMixin
 
 
 class JDBCOceanBaseDatabaseWrapperMixin(JDBCDatabaseWrapperMixin):
