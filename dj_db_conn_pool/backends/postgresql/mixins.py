@@ -7,10 +7,10 @@ try:
 except ModuleNotFoundError:
     from sqlalchemy.dialects.postgresql.psycopg2 import PGDialect_psycopg2 as PGDialect
 
-from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
+from dj_db_conn_pool.core.mixins import DatabasePoolWrapperMixin
 
 
-class PGDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
+class PGDatabaseWrapperMixin(DatabasePoolWrapperMixin):
     class SQLAlchemyDialect(PGDialect):
         pass
 

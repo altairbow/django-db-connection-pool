@@ -1,10 +1,10 @@
 import pyodbc
 from django.conf import ImproperlyConfigured
 
-from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
+from dj_db_conn_pool.core.mixins import DatabasePoolWrapperMixin
 
 
-class ODBCWrapperMixin(PersistentDatabaseWrapperMixin):
+class ODBCDatabaseWrapperMixin(DatabasePoolWrapperMixin):
     def _get_new_connection(self, conn_params):
         try:
             driver = self.settings_dict['ODBC_OPTIONS']['DRIVER']

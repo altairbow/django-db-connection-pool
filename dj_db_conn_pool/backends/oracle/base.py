@@ -1,10 +1,10 @@
 from django.db.backends.oracle import base
 from sqlalchemy.dialects.oracle.base import OracleDialect
 
-from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
+from dj_db_conn_pool.core.mixins import DatabasePoolWrapperMixin
 
 
-class DatabaseWrapper(PersistentDatabaseWrapperMixin, base.DatabaseWrapper):
+class DatabaseWrapper(DatabasePoolWrapperMixin, base.DatabaseWrapper):
     class SQLAlchemyDialect(OracleDialect):
         pass
 

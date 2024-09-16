@@ -8,12 +8,12 @@ from django.db.backends.base.introspection import BaseDatabaseIntrospection
 from django.db.backends.base.operations import BaseDatabaseOperations
 from sqlalchemy.engine.default import DefaultDialect
 
-from dj_db_conn_pool.core.mixins.core import PersistentDatabaseWrapperMixin
+from dj_db_conn_pool.core.mixins.core import DatabasePoolWrapperMixin
 
 logger = logging.getLogger(__name__)
 
 
-class BaseDatabasePoolWrapper(PersistentDatabaseWrapperMixin, base.BaseDatabaseWrapper):
+class BaseDatabasePoolWrapper(DatabasePoolWrapperMixin, base.BaseDatabaseWrapper):
     client_class = BaseDatabaseClient
 
     creation_class = BaseDatabaseCreation

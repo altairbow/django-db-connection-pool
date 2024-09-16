@@ -5,7 +5,7 @@ import jpype
 import jpype.dbapi2
 
 from dj_db_conn_pool.backends.jdbc.utils import CursorWrapper
-from dj_db_conn_pool.core.mixins import PersistentDatabaseWrapperMixin
+from dj_db_conn_pool.core.mixins import DatabasePoolWrapperMixin
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,7 @@ class JdbcDialectMixin:
             return False
 
 
-class JDBCDatabaseWrapperMixin(PersistentDatabaseWrapperMixin):
+class JDBCDatabaseWrapperMixin(DatabasePoolWrapperMixin):
     Database = jpype.dbapi2
 
     @property

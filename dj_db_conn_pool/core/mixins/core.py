@@ -9,7 +9,7 @@ from dj_db_conn_pool.core.mixins.creation import DatabaseCreationMixin
 logger = logging.getLogger(__name__)
 
 
-class PersistentDatabaseWrapperMixin:
+class DatabasePoolWrapperMixin:
     def __init__(self, *args, **kwargs):
         # override creation_class
         self.creation_class = type('DatabaseCreationWrapper', (DatabaseCreationMixin, self.creation_class), {})

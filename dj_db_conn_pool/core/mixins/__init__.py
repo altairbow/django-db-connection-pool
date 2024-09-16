@@ -1,1 +1,1 @@
-from .core import PersistentDatabaseWrapperMixin
+from .core import DatabasePoolWrapperMixin
