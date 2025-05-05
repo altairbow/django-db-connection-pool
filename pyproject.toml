@@ -32,16 +32,16 @@ all = [
     "Django",
     "SQLAlchemy",
     "sqlparams",
-    "psycopg",
+    "psycopg-binary",
     "mysqlclient",
     "oracledb",
     "pyodbc",
     "JPype1",
 ]
 
-postgresql = ["psycopg"]
-psycopg2 = ["psycopg2"]
-psycopg3 = ["psycopg"]
+postgresql = ["psycopg-binary"]
+psycopg2 = ["psycopg2-binary"]
+psycopg3 = ["psycopg-binary"]
 mysql = ["mysqlclient"]
 oracle = ["oracledb"]
 odbc = ["pyodbc"]
