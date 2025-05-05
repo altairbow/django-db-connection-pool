@@ -1,0 +1,13 @@
+[project]
+name = "dj-db-conn-pool-test"
+version = "0.1.0"
+description = "test django-db-connection-pool"
+readme = "README.md"
+requires-python = ">=3.0"
+dependencies = [
+    "django",
+    "sqlalchemy",
+]
+
+[[tool.uv.index]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
